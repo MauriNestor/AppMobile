@@ -1,33 +1,34 @@
 package com.scesi.appmobile.ui.view
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import com.scesi.appmobile.R
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.scesi.appmobile.data.model.MovieRepository
 import com.scesi.appmobile.databinding.ActivityMainBinding
-import com.scesi.appmobile.viewmodel.QuoteViewModel
+import com.scesi.appmobile.ui.viewmodel.MovieAdapter
+import com.scesi.appmobile.ui.viewmodel.MovieViewModel
+import com.scesi.appmobile.ui.viewmodel.MovieViewModelFactory
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
-    private val quoteViewModel: QuoteViewModel by viewModels()
+    private val viewModel: MovieViewModel by viewModels {
+        MovieViewModelFactory(MovieRepository(ApiClient.apiService))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        quoteViewModel.quoteModel.observe(this, Observer {
-            binding.tvQuote.text = it.quote
-            binding.tvAuthor.text = it.author
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+
+        viewModel.movies.observe(this, Observer { movies ->
+            binding.recyclerView.adapter = MovieAdapter(movies)
         })
 
-
-        binding.viewContainer.setOnClickListener { quoteViewModel.randomQuote() }
-
+        viewModel.fetchPopularMovies()
     }
-
 }

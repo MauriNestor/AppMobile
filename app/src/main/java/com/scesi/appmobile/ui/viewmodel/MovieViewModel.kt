@@ -14,7 +14,7 @@ class MovieViewModel (private val repository: MovieRepository) : ViewModel() {
     private val _movies = MutableLiveData<List<Result>>()
     val movies: LiveData<List<Result>> get() = _movies
 
-    fun fetchPopularMovies(apiKey: String) {
+    fun fetchPopularMovies() {
         viewModelScope.launch {
             try {
                 val response = repository.getPopularMovies()

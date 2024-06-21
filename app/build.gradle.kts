@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("kotlin-kapt")
 }
 
 android {
@@ -53,6 +54,8 @@ dependencies {
     // Lifecycle components
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.1")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.1")
+
 
 //    implementation ("com.github.antonKozyriatskyi:CircularProgressIndicator:1.3.2")
 
@@ -66,11 +69,11 @@ dependencies {
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 // Glide for image loading
-   // implementation ("com.github.bumptech.glide:glide:4.13.2")
-   // kapt ("com.github.bumptech.glide:compiler:4.13.2")
 
-// Glide
-//    implementation 'com.github.bumptech.glide:glide:4.15.1'
+    implementation("com.github.bumptech.glide:glide:4.15.1")
+    kapt("com.github.bumptech.glide:compiler:4.15.1")
+
+//    implementation("androidx.databinding:viewbinding:7.0.0")
 
     // CircularProgressIndicator
 //    implementation 'com.github.antonKozyriatskyi:CircularProgressIndicator:1.3.0'
