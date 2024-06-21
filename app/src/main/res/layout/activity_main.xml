@@ -17,11 +17,11 @@
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="italic"
-        android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/tvAuthor"
         android:layout_width="wrap_content"
@@ -31,7 +31,6 @@
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="italic"
-        android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
