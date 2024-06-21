@@ -1,4 +1,4 @@
-package com.scesi.appmobile.view
+package com.scesi.appmobile.ui.view
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge

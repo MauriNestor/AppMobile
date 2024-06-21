@@ -1,4 +1,4 @@
-package com.scesi.appmobile.viewmodel
+package com.scesi.appmobile.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -6,7 +6,7 @@ import kotlinx.coroutines.launch
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.scesi.appmobile.model.Movie
-import com.scesi.appmobile.model.MovieRepository
+import com.scesi.appmobile.data.model.MovieRepository
 
 class MovieViewModel (private val repository: MovieRepository) : ViewModel() {
 
