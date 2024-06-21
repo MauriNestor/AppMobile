@@ -29,4 +29,3 @@ data class Result(
     val vote_average: Double,
     val vote_count: Int
 )
-

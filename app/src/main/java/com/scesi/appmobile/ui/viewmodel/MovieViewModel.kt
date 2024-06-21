@@ -5,13 +5,13 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.scesi.appmobile.model.Movie
+import com.scesi.appmobile.data.model.MovieResponse
 import com.scesi.appmobile.data.model.MovieRepository
 
 class MovieViewModel (private val repository: MovieRepository) : ViewModel() {
 
-    private val _movies = MutableLiveData<List<Movie>>()
-    val movies: LiveData<List<Movie>> get() = _movies
+    private val _movies = MutableLiveData<List<MovieResponse>>()
+    val movies: LiveData<List<MovieResponse>> get() = _movies
 
     fun fetchPopularMovies(apiKey: String) {
         viewModelScope.launch {
