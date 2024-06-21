@@ -9,9 +9,9 @@ import retrofit2.http.Query
 interface ApiService {
 
     @GET("now_playing")
-    suspend fun getCartelera(@Query("api_key") apiKey: String): MovieResponse
+    suspend fun getCarteleraMovies(): MovieResponse
 
     @GET("popular")
-    suspend fun getPopularMovies(@Query("api_key") apiKey: String): MovieResponse
+    suspend fun getPopularMovies(): MovieResponse
 
 }

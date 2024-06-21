@@ -38,7 +38,7 @@ object RetrofitClient {
 
             // Add the API key to the original URL
             val urlWithApiKey = originalUrl.newBuilder()
-                .addQueryParameter("api_key", apiKey)
+                .addQueryParameter("apikey", apiKey)
                 .build()
 
             // Build a new request with the modified URL
