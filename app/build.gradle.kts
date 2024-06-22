@@ -57,7 +57,11 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.1")
 
 
-//    implementation ("com.github.antonKozyriatskyi:CircularProgressIndicator:1.3.2")
+// Kotlin Android Extensions
+    implementation("androidx.activity:activity-ktx:1.5.1")
+    implementation("androidx.fragment:fragment-ktx:1.4.1")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+
 
     // Retrofit for API calls
     implementation("com.squareup.retrofit2:retrofit:2.9.0")

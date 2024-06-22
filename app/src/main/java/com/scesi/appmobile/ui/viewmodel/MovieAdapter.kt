@@ -9,16 +9,6 @@ import com.scesi.appmobile.databinding.ItemMovieBinding
 
 class MovieAdapter(private val movies: List<Result>) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
-    inner class MovieViewHolder(private val binding: ItemMovieBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(movie: Result) {
-            binding.title.text = movie.title
-            binding.overview.text = movie.overview
-            Glide.with(binding.poster)
-                .load("https://image.tmdb.org/t/p/w500${movie.poster_path}")
-                .into(binding.poster)
-        }
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val binding = ItemMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MovieViewHolder(binding)
@@ -29,4 +19,14 @@ class MovieAdapter(private val movies: List<Result>) : RecyclerView.Adapter<Movi
     }
 
     override fun getItemCount(): Int = movies.size
+
+    class MovieViewHolder(private val binding: ItemMovieBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(movie: Result) {
+            binding.movieTitle.text = movie.title
+            Glide.with(binding.root.context)
+                .load("https://image.tmdb.org/t/p/w500${movie.poster_path}")
+                .into(binding.moviePoster)
+        }
+    }
 }

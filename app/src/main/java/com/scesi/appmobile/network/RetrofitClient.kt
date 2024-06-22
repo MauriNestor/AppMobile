@@ -29,8 +29,6 @@ object RetrofitClient {
     // Create the ApiService
     val apiService: ApiService = retrofit.create(ApiService::class.java)
 
-
-
     class QueryInterceptor(private val apiKey: String) : Interceptor {
         override fun intercept(chain: Interceptor.Chain): Response {
             val originalRequest = chain.request()
@@ -38,7 +36,7 @@ object RetrofitClient {
 
             // Add the API key to the original URL
             val urlWithApiKey = originalUrl.newBuilder()
-                .addQueryParameter("apikey", apiKey)
+                .addQueryParameter("api_key", apiKey)
                 .build()
 
             // Build a new request with the modified URL
