@@ -2,13 +2,14 @@ package com.scesi.appmobile.ui.viewmodel
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.scesi.appmobile.data.model.Result
 import com.scesi.appmobile.databinding.ItemMovieBinding
+import com.scesi.appmobile.data.model.Result
 
-class MovieAdapter(private val movies: List<Result>) :
-    RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
+class MovieAdapter : ListAdapter<Result, MovieAdapter.MovieViewHolder>(MovieDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val binding = ItemMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -16,19 +17,29 @@ class MovieAdapter(private val movies: List<Result>) :
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        holder.bind(movies[position])
+        holder.bind(getItem(position))
     }
 
-    override fun getItemCount(): Int = movies.size
-
-    class MovieViewHolder(private val binding: ItemMovieBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
+    class MovieViewHolder(private val binding: ItemMovieBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(movie: Result) {
-            binding.movieTitle.text = movie.title
-            Glide.with(binding.root.context)
-                .load("https://image.tmdb.org/t/p/w500${movie.poster_path}")
-                .into(binding.moviePoster)
+            binding.movie = movie
+            binding.executePendingBindings()
+
+            // Load image using Glide
+            val posterUrl = "https://image.tmdb.org/t/p/w500${movie.poster_path}"
+            Glide.with(binding.imageView.context)
+                .load(posterUrl)
+                .into(binding.imageView)
+        }
+    }
+
+    class MovieDiffCallback : DiffUtil.ItemCallback<Result>() {
+        override fun areItemsTheSame(oldItem: Result, newItem: Result): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Result, newItem: Result): Boolean {
+            return oldItem == newItem
         }
     }
 }

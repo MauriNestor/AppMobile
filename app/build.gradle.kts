@@ -56,6 +56,9 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.1")
 
+    //pagination
+    implementation("androidx.paging:paging-runtime:3.1.1")
+
 
 // Kotlin Android Extensions
     implementation("androidx.activity:activity-ktx:1.5.1")
