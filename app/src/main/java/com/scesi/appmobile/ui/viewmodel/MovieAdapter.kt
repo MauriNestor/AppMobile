@@ -7,7 +7,8 @@ import com.bumptech.glide.Glide
 import com.scesi.appmobile.data.model.Result
 import com.scesi.appmobile.databinding.ItemMovieBinding
 
-class MovieAdapter(private val movies: List<Result>) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
+class MovieAdapter(private val movies: List<Result>) :
+    RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val binding = ItemMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -20,7 +21,8 @@ class MovieAdapter(private val movies: List<Result>) : RecyclerView.Adapter<Movi
 
     override fun getItemCount(): Int = movies.size
 
-    class MovieViewHolder(private val binding: ItemMovieBinding) : RecyclerView.ViewHolder(binding.root) {
+    class MovieViewHolder(private val binding: ItemMovieBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(movie: Result) {
             binding.movieTitle.text = movie.title
