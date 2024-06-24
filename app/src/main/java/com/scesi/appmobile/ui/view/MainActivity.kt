@@ -6,11 +6,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.scesi.appmobile.databinding.ActivityMainBinding
 import com.scesi.appmobile.ui.viewmodel.MovieAdapter
 import com.scesi.appmobile.ui.viewmodel.MovieViewModel
 import com.scesi.appmobile.ui.viewmodel.MovieViewModelFactory
 import com.scesi.appmobile.data.model.MovieRepository
+import com.scesi.appmobile.databinding.ActivityMainBinding
 import com.scesi.appmobile.network.RetrofitClient
 
 class MainActivity : AppCompatActivity() {
