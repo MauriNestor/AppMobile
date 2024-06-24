@@ -6,7 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.scesi.appmobile.R
+import com.scesi.appmobile.databinding.ActivityMainBinding
 import com.scesi.appmobile.ui.viewmodel.MovieAdapter
 import com.scesi.appmobile.ui.viewmodel.MovieViewModel
 import com.scesi.appmobile.ui.viewmodel.MovieViewModelFactory
@@ -16,16 +16,17 @@ import com.scesi.appmobile.network.RetrofitClient
 class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MovieViewModel
     private lateinit var movieAdapter: MovieAdapter
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // Initialize RecyclerView
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-        recyclerView.layoutManager = GridLayoutManager(this, 3) // 3 columns
+        binding.recyclerView.layoutManager = GridLayoutManager(this, 3)
         movieAdapter = MovieAdapter()
-        recyclerView.adapter = movieAdapter
+        binding.recyclerView.adapter = movieAdapter
 
         // Initialize ViewModel
         val factory = MovieViewModelFactory(MovieRepository(RetrofitClient.apiService))
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         // Add scroll listener for pagination
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 val layoutManager = recyclerView.layoutManager as GridLayoutManager
