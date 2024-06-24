@@ -2,21 +2,16 @@ package com.scesi.appmobile.ui.viewmodel
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.scesi.appmobile.databinding.ItemMovieBinding
 import com.scesi.appmobile.data.model.Result
-import com.scesi.appmobile.core.Constantes
+import com.scesi.appmobile.databinding.ItemMovieBinding
 
 class MovieAdapter : RecyclerView.Adapter<MovieViewHolder>() {
 
     private var movies: List<Result> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
-        val binding =
-            ItemMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MovieViewHolder(binding)
     }
 
@@ -24,13 +19,8 @@ class MovieAdapter : RecyclerView.Adapter<MovieViewHolder>() {
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         val movie = movies[position]
-
-        holder.binding.textViewTitle.text = movie.title
-
-        val posterUrl = "${Constantes.IMG_BASE_URL}${movie.poster_path}"
-        Glide.with(holder.binding.root.context)
-            .load(posterUrl)
-            .into(holder.binding.imageView)
+        holder.binding.movie = movie
+        holder.binding.executePendingBindings()
     }
 
     fun submitList(movies: List<Result>) {
