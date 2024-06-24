@@ -1,10 +1,12 @@
 package com.scesi.appmobile.ui.viewmodel
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.scesi.appmobile.data.model.Result
 import com.scesi.appmobile.databinding.ItemMovieBinding
+import com.scesi.appmobile.ui.view.DetailActivity
 
 class MovieAdapter : RecyclerView.Adapter<MovieViewHolder>() {
 
@@ -21,6 +23,14 @@ class MovieAdapter : RecyclerView.Adapter<MovieViewHolder>() {
         val movie = movies[position]
         holder.binding.movie = movie
         holder.binding.executePendingBindings()
+
+        holder.itemView.setOnClickListener {
+            val context = holder.itemView.context
+            val intent = Intent(context, DetailActivity::class.java).apply {
+                putExtra("movie", movie)
+            }
+            context.startActivity(intent)
+        }
     }
 
     fun submitList(movies: List<Result>) {
