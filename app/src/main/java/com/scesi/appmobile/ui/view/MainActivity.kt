@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Initialize RecyclerView
-        binding.recyclerView.layoutManager = GridLayoutManager(this, 3)
+//        binding.recyclerView.layoutManager = GridLayoutManager(this, 3)
         movieAdapter = MovieAdapter()
         binding.recyclerView.adapter = movieAdapter
 
