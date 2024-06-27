@@ -13,11 +13,20 @@ class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
     val movies: LiveData<List<Result>> get() = _movies
 
     private var currentPage = 1
+    private val currentMovies = mutableListOf<Result>()
 
-    fun getMovies(category: String) {
+    fun getMovies(category: String, page: Int = 1) {
         viewModelScope.launch {
-            val movieResponse = repository.getMovies(category, currentPage)
-            _movies.value = movieResponse.results
+            val movieResponse = repository.getMovies(category, page)
+            if (page == 1) {
+                currentMovies.clear()
+            }
+            currentMovies.addAll(movieResponse.results)
+            _movies.value = currentMovies
         }
+    }
+    fun loadNextPage(category: String) {
+        currentPage++
+        getMovies(category, currentPage)
     }
 }

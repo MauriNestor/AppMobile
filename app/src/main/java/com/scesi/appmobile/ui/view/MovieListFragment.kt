@@ -55,7 +55,7 @@ class MovieListFragment : Fragment() {
                 val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
 
                 if (lastVisibleItem + 3 >= totalItemCount) {
-                    viewModel.getMovies(endpoint)
+                    viewModel.loadNextPage(endpoint)
                 }
             }
         })
