@@ -82,12 +82,10 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.15.1")
     kapt("com.github.bumptech.glide:compiler:4.15.1")
 
-    // CircularProgressIndicator
-//    implementation 'com.github.antonKozyriatskyi:CircularProgressIndicator:1.3.0'
 
-//    // Coroutines for asynchronous operations
-//    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
-//    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
-
+    implementation ("com.google.android.material:material:1.10.0")
+    //fragments
+//    implementation("androidx-navigation.navigation-fragment-ktx:2.7.7")
+//    implementation ("andcoitx.navination.paxination.ui.ktx:2.7.7")
 
 }
