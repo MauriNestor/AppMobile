@@ -2,7 +2,9 @@ package com.scesi.appmobile.ui.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.tabs.TabLayoutMediator
+import androidx.fragment.app.Fragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.scesi.appmobile.R
 import com.scesi.appmobile.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -13,20 +15,28 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val fragments = listOf(
-            MovieListFragment.newInstance("now_playing"),
-            MovieListFragment.newInstance("popular"),
-            MovieListFragment.newInstance("upcoming"),
-            MovieListFragment.newInstance("top_rated")
-        )
+        // Load the default fragment (HomeFragment)
+        loadFragment(HomeFragment())
 
-        val titles = listOf("Now Playing", "Popular", "Upcoming", "Top Rated")
+        // Set the BottomNavigationView item selection listener
+        binding.bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_home -> {
+                    loadFragment(HomeFragment())
+                    true
+                }
+                R.id.navigation_favorites -> {
+                    loadFragment(FavoritesFragment())
+                    true
+                }
+                else -> false
+            }
+        }
+    }
 
-        val adapter = ViewPagerAdapter(this, fragments)
-        binding.viewPager.adapter = adapter
-
-        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
-            tab.text = titles[position]
-        }.attach()
+    private fun loadFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.nav_host_fragment, fragment)
+            .commit()
     }
 }
