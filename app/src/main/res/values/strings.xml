@@ -6,10 +6,8 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-<!--    &icons;-->
-        <string name="title_home">Home</string>
-        <string name="title_search">Search</string>
-        <string name="title_favorites">Favorites</string>
+<!--tablayout -->
+    <string name="tab_layout_description">Tab layout for switching between different movie categories</string>
 
 
 </resources>
