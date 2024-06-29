@@ -18,6 +18,7 @@
             android:layout_height="match_parent"
             android:layout_above="@id/bottom_navigation_view">
 
+            <!-- Nested container to hold TabLayout and ViewPager2 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -30,7 +31,8 @@
                     android:layout_height="wrap_content"
                     app:tabIndicatorColor="@color/rojo_200"
                     app:tabSelectedTextColor="@color/rojo_300"
-                    app:tabTextColor="@android:color/black"/>
+                    app:tabTextColor="@android:color/black"
+                    android:contentDescription="@string/tab_layout_description"/>
 
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/viewPager"
@@ -44,6 +46,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:background="@color/rojo_200"
+            app:itemIconTint="#fff"
+            app:itemTextColor="#fff"
             app:menu="@menu/bottom_nav_menu" />
 
     </RelativeLayout>
