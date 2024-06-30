@@ -2,8 +2,9 @@ package com.scesi.appmobile.ui.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
 import com.scesi.appmobile.R
 import com.scesi.appmobile.databinding.ActivityMainBinding
 
@@ -15,16 +16,24 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        loadFragment(HomeFragment())
+        setSupportActionBar(binding.toolbar)
 
-        binding.bottomNavigationView.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.navigation_home -> {
-                    loadFragment(HomeFragment())
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+
+        NavigationUI.setupActionBarWithNavController(this, navController, binding.drawerLayout)
+        NavigationUI.setupWithNavController(binding.navigationView, navController)
+
+        binding.navigationView.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.nav_home -> {
+                    navController.navigate(R.id.homeFragment)
+                    binding.drawerLayout.closeDrawers()
                     true
                 }
-                R.id.navigation_favorites -> {
-                    loadFragment(FavoritesFragment())
+                R.id.nav_favorites -> {
+                    navController.navigate(R.id.favoritesFragment)
+                    binding.drawerLayout.closeDrawers()
                     true
                 }
                 else -> false
@@ -32,9 +41,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.nav_host_fragment, fragment)
-            .commit()
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(R.id.nav_host_fragment)
+        return NavigationUI.navigateUp(navController, binding.drawerLayout)
     }
 }
