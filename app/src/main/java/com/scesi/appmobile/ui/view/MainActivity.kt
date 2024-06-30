@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.scesi.appmobile.R
 import com.scesi.appmobile.databinding.ActivityMainBinding
 
@@ -23,6 +24,10 @@ class MainActivity : AppCompatActivity() {
 
         NavigationUI.setupActionBarWithNavController(this, navController, binding.drawerLayout)
         NavigationUI.setupWithNavController(binding.navigationView, navController)
+
+        // Configuración del BottomNavigationView
+        val bottomNavigationView: BottomNavigationView = binding.bottomNavigationView
+        NavigationUI.setupWithNavController(bottomNavigationView, navController)
 
         binding.navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
