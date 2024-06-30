@@ -7,49 +7,69 @@
         <!-- Data binding variables if needed -->
     </data>
 
-    <RelativeLayout
+    <androidx.drawerlayout.widget.DrawerLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.view.MainActivity">
 
-        <FrameLayout
-            android:id="@+id/nav_host_fragment"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@id/bottom_navigation_view">
+            android:layout_height="match_parent">
 
-            <!-- Nested container to hold TabLayout and ViewPager2 -->
-            <LinearLayout
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorPrimary"
+                android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
+
+            <FrameLayout
+                android:id="@+id/nav_host_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                tools:context=".ui.view.MainActivity">
+                android:layout_below="@id/toolbar"
+                android:layout_above="@id/bottom_navigation_view">
 
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/tabLayout"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:tabIndicatorColor="@color/rojo_200"
-                    app:tabSelectedTextColor="@color/rojo_300"
-                    app:tabTextColor="@android:color/black"
-                    android:contentDescription="@string/tab_layout_description"/>
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/viewPager"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-            </LinearLayout>
-        </FrameLayout>
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tabLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:tabIndicatorColor="@color/rojo_200"
+                        app:tabSelectedTextColor="@color/rojo_300"
+                        app:tabTextColor="@android:color/black"
+                        android:contentDescription="@string/tab_layout_description" />
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_navigation_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@color/rojo_200"
-            app:itemIconTint="#fff"
-            app:itemTextColor="#fff"
-            app:menu="@menu/bottom_nav_menu" />
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/viewPager"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+            </FrameLayout>
 
-    </RelativeLayout>
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottom_navigation_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@color/rojo_200"
+                app:itemIconTint="#fff"
+                app:itemTextColor="#fff"
+                app:menu="@menu/bottom_nav_menu" />
+
+        </RelativeLayout>
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navigation_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:headerLayout="@layout/nav_header"
+            app:menu="@menu/drawer_menu" />
+
+    </androidx.drawerlayout.widget.DrawerLayout>
 </layout>
