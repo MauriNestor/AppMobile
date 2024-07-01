@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.scesi.appmobile.data.model.Result
 import com.scesi.appmobile.databinding.ActivityDetailBinding
-import com.scesi.appmobile.core.Constantes
+import com.scesi.appmobile.utils.Constantes
 
 class DetailActivity : AppCompatActivity() {
 

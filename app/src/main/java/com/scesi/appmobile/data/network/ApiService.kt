@@ -1,6 +1,6 @@
-package com.scesi.appmobile.network
+package com.scesi.appmobile.data.network
 
-import com.scesi.appmobile.core.Constantes
+import com.scesi.appmobile.utils.Constantes
 import com.scesi.appmobile.data.model.MovieResponse
 import retrofit2.http.GET
 import retrofit2.http.Path

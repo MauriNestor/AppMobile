@@ -1,6 +1,6 @@
-package com.scesi.appmobile.network
+package com.scesi.appmobile.data.network
 
-import com.scesi.appmobile.core.Constantes
+import com.scesi.appmobile.utils.Constantes
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.Interceptor

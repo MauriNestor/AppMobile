@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.scesi.appmobile.data.model.MovieRepository
+import com.scesi.appmobile.data.repository.MovieRepository
 import com.scesi.appmobile.data.model.Result
 import kotlinx.coroutines.launch
 

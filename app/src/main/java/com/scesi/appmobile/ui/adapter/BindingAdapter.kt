@@ -1,10 +1,10 @@
-package com.scesi.appmobile.ui.view
+package com.scesi.appmobile.ui.adapter
 
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
-import com.scesi.appmobile.core.Constantes
+import com.scesi.appmobile.utils.Constantes
 
 @BindingAdapter("imageUrl")
 fun loadImage(view: ImageView, url: String?) {

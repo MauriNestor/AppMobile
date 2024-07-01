@@ -1,4 +1,4 @@
-package com.scesi.appmobile.ui.viewmodel
+package com.scesi.appmobile.ui.adapter
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide
 import com.scesi.appmobile.data.model.Result
 import com.scesi.appmobile.databinding.ItemMovieBinding
 import com.scesi.appmobile.ui.view.DetailActivity
-import com.scesi.appmobile.core.Constantes
+import com.scesi.appmobile.utils.Constantes
 
 class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 

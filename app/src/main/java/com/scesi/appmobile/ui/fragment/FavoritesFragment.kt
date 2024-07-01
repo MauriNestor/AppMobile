@@ -1,4 +1,4 @@
-package com.scesi.appmobile.ui.view
+package com.scesi.appmobile.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater

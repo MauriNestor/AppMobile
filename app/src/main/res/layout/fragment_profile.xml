@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
-        tools:context=".ui.view.ProfileFragment">
+        tools:context=".ui.fragment.ProfileFragment">
 
         <TextView
             android:layout_width="wrap_content"

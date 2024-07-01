@@ -1,4 +1,4 @@
-package com.scesi.appmobile.ui.view
+package com.scesi.appmobile.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,12 +9,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.scesi.appmobile.ui.viewmodel.MovieAdapter
+import com.scesi.appmobile.ui.adapter.MovieAdapter
 import com.scesi.appmobile.ui.viewmodel.MovieViewModel
 import com.scesi.appmobile.ui.viewmodel.MovieViewModelFactory
-import com.scesi.appmobile.data.model.MovieRepository
+import com.scesi.appmobile.data.repository.MovieRepository
 import com.scesi.appmobile.databinding.FragmentMovieListBinding
-import com.scesi.appmobile.network.RetrofitClient
+import com.scesi.appmobile.data.network.RetrofitClient
 
 class MovieListFragment : Fragment() {
 

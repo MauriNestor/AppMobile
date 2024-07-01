@@ -1,4 +1,4 @@
-package com.scesi.appmobile.core
+package com.scesi.appmobile.utils
 
 object Constantes {
     val API_KEY:String = "7ad52d9647575a91111e3600fa6cc563"
