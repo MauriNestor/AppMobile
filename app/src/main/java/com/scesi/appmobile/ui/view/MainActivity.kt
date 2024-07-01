@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
         // Configuración del BottomNavigationView
         val bottomNavigationView: BottomNavigationView = binding.bottomNavigationView
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
-
         binding.navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_home -> {
