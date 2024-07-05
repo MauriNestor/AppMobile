@@ -6,7 +6,7 @@
     <data>
         <variable
             name="movie"
-            type="com.scesi.appmobile.data.model.Result" />
+            type="com.scesi.appmobile.data.local.entity.MovieEntity" />
     </data>
 
     <LinearLayout
@@ -42,14 +42,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text='@{"Rating: " + movie.vote_average}' />
+            android:text="@{String.valueOf(movie.voteAverage)}" />
 
-        <TextView
-            android:id="@+id/textViewPopularity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text='@{"Popularity: " + movie.popularity}' />
+<!--        <TextView-->
+<!--            android:id="@+id/textViewPopularity"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            android:text='@{"Popularity: " + movie.popularity}' />-->
 
         <Button
             android:id="@+id/buttonBack"
