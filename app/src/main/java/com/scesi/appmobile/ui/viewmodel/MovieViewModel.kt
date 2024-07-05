@@ -4,29 +4,42 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.scesi.appmobile.data.local.entity.MovieEntity
 import com.scesi.appmobile.data.repository.MovieRepository
-import com.scesi.appmobile.data.model.Result
 import kotlinx.coroutines.launch
+import java.io.IOException
 
 class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
-    private val _movies = MutableLiveData<List<Result>>()
-    val movies: LiveData<List<Result>> get() = _movies
 
-    private var currentPage = 1
-    private val currentMovies = mutableListOf<Result>()
+    private val _movies = MutableLiveData<List<MovieEntity>>()
+    val movies: LiveData<List<MovieEntity>> get() = _movies
 
-    fun getMovies(category: String, page: Int = 1) {
+    private var page = 1
+
+    fun getMovies(category: String) {
         viewModelScope.launch {
-            val movieResponse = repository.getMovies(category, page)
-            if (page == 1) {
-                currentMovies.clear()
+            try {
+                val moviesFromRepo = repository.getMoviesFromApi(category, page)
+                _movies.postValue(moviesFromRepo)
+            } catch (e: IOException) {
+                val moviesFromDb = repository.getMoviesFromDatabase(category)
+                _movies.postValue(moviesFromDb)
             }
-            currentMovies.addAll(movieResponse.results)
-            _movies.value = currentMovies
         }
     }
+
     fun loadNextPage(category: String) {
-        currentPage++
-        getMovies(category, currentPage)
+        viewModelScope.launch {
+            try {
+                val newMovies = repository.getMoviesFromApi(category, page)
+                val currentMovies = _movies.value.orEmpty().toMutableList()
+                currentMovies.addAll(newMovies)
+                _movies.postValue(currentMovies)
+                page++
+            } catch (e: IOException) {
+                val moviesFromDb = repository.getMoviesFromDatabase(category)
+                _movies.postValue(moviesFromDb)
+            }
+        }
     }
 }
