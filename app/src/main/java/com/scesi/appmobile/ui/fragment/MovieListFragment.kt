@@ -1,9 +1,12 @@
 package com.scesi.appmobile.ui.fragment
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,6 +18,8 @@ import com.scesi.appmobile.ui.viewmodel.MovieViewModelFactory
 import com.scesi.appmobile.data.repository.MovieRepository
 import com.scesi.appmobile.databinding.FragmentMovieListBinding
 import com.scesi.appmobile.data.network.RetrofitClient
+import com.scesi.appmobile.data.local.AppDatabase
+import com.google.android.material.snackbar.Snackbar
 
 class MovieListFragment : Fragment() {
 
@@ -40,7 +45,9 @@ class MovieListFragment : Fragment() {
         movieAdapter = MovieAdapter()
         binding.recyclerView.adapter = movieAdapter
 
-        val factory = MovieViewModelFactory(MovieRepository(RetrofitClient.apiService))
+        val movieDao = AppDatabase.getDatabase(requireContext()).movieDao()
+        val repository = MovieRepository(RetrofitClient.apiService, movieDao)
+        val factory = MovieViewModelFactory(repository)
         viewModel = ViewModelProvider(this, factory).get(MovieViewModel::class.java)
 
         viewModel.movies.observe(viewLifecycleOwner, Observer { movies ->
@@ -61,6 +68,15 @@ class MovieListFragment : Fragment() {
         })
 
         viewModel.getMovies(endpoint)
+
+        binding.root.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                binding.root.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                if (!isConnected()) {
+                    Snackbar.make(binding.root, "No internet connection. Loading from database...", Snackbar.LENGTH_LONG).show()
+                }
+            }
+        })
     }
 
     companion object {
@@ -71,5 +87,11 @@ class MovieListFragment : Fragment() {
                     putString("endpoint", endpoint)
                 }
             }
+    }
+
+    private fun isConnected(): Boolean {
+        val connectivityManager = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connectivityManager.activeNetworkInfo
+        return networkInfo != null && networkInfo.isConnected
     }
 }

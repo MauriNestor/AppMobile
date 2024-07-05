@@ -5,16 +5,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.scesi.appmobile.data.model.Result
+import com.scesi.appmobile.data.local.entity.MovieEntity
 import com.scesi.appmobile.databinding.ItemMovieBinding
 import com.scesi.appmobile.ui.view.DetailActivity
 import com.scesi.appmobile.utils.Constantes
 
 class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
-    private var movies = listOf<Result>()
+    private var movies = listOf<MovieEntity>()
 
-    fun submitList(movieList: List<Result>) {
+    fun submitList(movieList: List<MovieEntity>) {
         movies = movieList
         notifyDataSetChanged()
     }
@@ -34,11 +34,11 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
     inner class MovieViewHolder(private val binding: ItemMovieBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(movie: Result) {
+        fun bind(movie: MovieEntity) {
             binding.movie = movie
             binding.executePendingBindings()
 
-            val posterUrl = "${Constantes.IMG_BASE_URL}${movie.poster_path}"
+            val posterUrl = "${Constantes.IMG_BASE_URL}${movie.posterPath}"
             Glide.with(binding.imageView.context)
                 .load(posterUrl)
                 .into(binding.imageView)
