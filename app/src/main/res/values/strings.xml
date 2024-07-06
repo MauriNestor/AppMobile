@@ -1,13 +1,14 @@
 <resources>
-    <string name="app_name">AppMobile</string>
+    <string name="app_name">The Movie Box</string>
     <string name="movie_poster">Movie Poster</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
+    <string name="next">Ir a la App</string>
     <string name="previous">Previous</string>
 <!--tablayout -->
     <string name="tab_layout_description">Tab layout for switching between different movie categories</string>
 
-
+<!--screensPrevious-->
+    <string name="screenText">Welcome to The Movie Box</string>
 </resources>

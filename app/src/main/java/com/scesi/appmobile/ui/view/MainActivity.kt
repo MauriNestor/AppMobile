@@ -1,5 +1,6 @@
 package com.scesi.appmobile.ui.view
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -14,6 +15,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val sharedPreferences = getSharedPreferences("onboarding", MODE_PRIVATE)
+        val onboardingComplete = sharedPreferences.getBoolean("onboarding_complete", false)
+
+        if (!onboardingComplete) {
+            startActivity(Intent(this, OnboardingActivity::class.java))
+            finish()
+            return
+        }
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -25,7 +35,6 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupActionBarWithNavController(this, navController, binding.drawerLayout)
         NavigationUI.setupWithNavController(binding.navigationView, navController)
 
-        // Configuración del BottomNavigationView
         val bottomNavigationView: BottomNavigationView = binding.bottomNavigationView
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
         binding.navigationView.setNavigationItemSelectedListener { menuItem ->
