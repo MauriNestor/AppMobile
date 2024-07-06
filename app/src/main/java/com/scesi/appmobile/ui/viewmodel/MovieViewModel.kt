@@ -12,32 +12,33 @@ import java.io.IOException
 class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
 
     private val _movies = MutableLiveData<List<MovieEntity>>()
-    val movies: LiveData<List<MovieEntity>> get() = _movies
+    val movies: LiveData<List<MovieEntity>> = _movies
 
-    private var page = 1
+    private val currentMovies = mutableListOf<MovieEntity>()
+    private var currentPage = 1
 
-    fun getMovies(category: String) {
+    fun getMovies(endpoint: String) {
         viewModelScope.launch {
             try {
-                val moviesFromRepo = repository.getMoviesFromApi(category, page)
-                _movies.postValue(moviesFromRepo)
+                val newMovies = repository.getMoviesFromApi(endpoint, currentPage)
+                currentMovies.addAll(newMovies.distinctBy { it.id })
+                _movies.value = currentMovies
             } catch (e: IOException) {
-                val moviesFromDb = repository.getMoviesFromDatabase(category)
+                val moviesFromDb = repository.getMoviesFromDatabase(endpoint)
                 _movies.postValue(moviesFromDb)
             }
         }
     }
 
-    fun loadNextPage(category: String) {
+    fun loadNextPage(endpoint: String) {
         viewModelScope.launch {
             try {
-                val newMovies = repository.getMoviesFromApi(category, page)
-                val currentMovies = _movies.value.orEmpty().toMutableList()
-                currentMovies.addAll(newMovies)
+                currentPage++
+                val newMovies = repository.getMoviesFromApi(endpoint, currentPage)
+                currentMovies.addAll(newMovies.distinctBy { it.id })
                 _movies.postValue(currentMovies)
-                page++
             } catch (e: IOException) {
-                val moviesFromDb = repository.getMoviesFromDatabase(category)
+                val moviesFromDb = repository.getMoviesFromDatabase(endpoint)
                 _movies.postValue(moviesFromDb)
             }
         }

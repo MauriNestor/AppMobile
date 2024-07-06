@@ -50,10 +50,9 @@ class MovieListFragment : Fragment() {
         val factory = MovieViewModelFactory(repository)
         viewModel = ViewModelProvider(this, factory).get(MovieViewModel::class.java)
 
-        viewModel.movies.observe(viewLifecycleOwner, Observer { movies ->
-            movieAdapter.submitList(movies)
+        viewModel.movies.observe(viewLifecycleOwner, Observer { movieList ->
+            movieAdapter.submitList(movieList)
         })
-
         binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
