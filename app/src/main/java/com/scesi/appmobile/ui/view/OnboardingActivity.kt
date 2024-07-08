@@ -16,11 +16,9 @@ class OnboardingActivity : AppCompatActivity() {
         binding = ActivityOnboardingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Configurar el ViewPager
         adapter = OnboardingAdapter()
         binding.viewPager.adapter = adapter
 
-        // Conectar el TabLayout con el ViewPager
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { _, _ -> }.attach()
 
         binding.btnNext.setOnClickListener {
