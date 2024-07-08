@@ -14,6 +14,9 @@ class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
     private val _movies = MutableLiveData<List<MovieEntity>>()
     val movies: LiveData<List<MovieEntity>> = _movies
 
+    private val _favoriteMovies = MutableLiveData<List<MovieEntity>>()
+    val favoriteMovies: LiveData<List<MovieEntity>> = _favoriteMovies
+
     private val currentMovies = mutableListOf<MovieEntity>()
     private var currentPage = 1
 
@@ -43,4 +46,19 @@ class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
             }
         }
     }
+    fun getFavoriteMovies() {
+        viewModelScope.launch {
+            val favorites = repository.getFavoriteMovies()
+            _favoriteMovies.postValue(favorites)
+        }
+    }
+
+    fun updateFavoriteStatus(movieId: Int, isFavorite: Boolean) {
+        viewModelScope.launch {
+            repository.updateFavoriteStatus(movieId, isFavorite)
+            getFavoriteMovies()
+        }
+    }
+
+
 }

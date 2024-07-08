@@ -12,13 +12,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.scesi.appmobile.MyApplication
 import com.scesi.appmobile.ui.adapter.MovieAdapter
 import com.scesi.appmobile.ui.viewmodel.MovieViewModel
 import com.scesi.appmobile.ui.viewmodel.MovieViewModelFactory
-import com.scesi.appmobile.data.repository.MovieRepository
 import com.scesi.appmobile.databinding.FragmentMovieListBinding
-import com.scesi.appmobile.data.network.RetrofitClient
-import com.scesi.appmobile.data.local.AppDatabase
 import com.google.android.material.snackbar.Snackbar
 
 class MovieListFragment : Fragment() {
@@ -45,8 +43,8 @@ class MovieListFragment : Fragment() {
         movieAdapter = MovieAdapter()
         binding.recyclerView.adapter = movieAdapter
 
-        val movieDao = AppDatabase.getDatabase(requireContext()).movieDao()
-        val repository = MovieRepository(RetrofitClient.apiService, movieDao)
+        val application = requireActivity().application as MyApplication
+        val repository = application.repository
         val factory = MovieViewModelFactory(repository)
         viewModel = ViewModelProvider(this, factory).get(MovieViewModel::class.java)
 
