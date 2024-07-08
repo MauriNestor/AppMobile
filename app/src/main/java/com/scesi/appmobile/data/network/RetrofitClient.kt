@@ -19,14 +19,12 @@ object RetrofitClient {
         .addInterceptor(loggingInterceptor)
         .addInterceptor(queryInterceptor)
         .build()
-    // Create Retrofit instance
     val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl(Constantes.API_BASE_URL)
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    // Create the ApiService
     val apiService: ApiService = retrofit.create(ApiService::class.java)
 
     class QueryInterceptor(private val apiKey: String) : Interceptor {
@@ -34,12 +32,10 @@ object RetrofitClient {
             val originalRequest = chain.request()
             val originalUrl = originalRequest.url
 
-            // Add the API key to the original URL
             val urlWithApiKey = originalUrl.newBuilder()
                 .addQueryParameter("api_key", apiKey)
                 .build()
 
-            // Build a new request with the modified URL
             val requestWithApiKey = originalRequest.newBuilder()
                 .url(urlWithApiKey)
                 .build()
