@@ -11,5 +11,6 @@ data class MovieEntity(
     val posterPath: String?,
     val voteAverage: Double,
     val overview: String,
-    val category: String
+    val category: String,
+    var isFavorite: Boolean = false
 ) : Serializable
