@@ -1,6 +1,7 @@
 package com.scesi.appmobile.ui.view
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -37,12 +38,27 @@ class DetailActivity : AppCompatActivity() {
             binding.buttonBack.setOnClickListener {
                 finish()
             }
-
+            updateFavoriteButtonText(it.isFavorite)
             binding.buttonFavorite.setOnClickListener { view ->
                 val newFavoriteStatus = !it.isFavorite
                 it.isFavorite = newFavoriteStatus
                 movieViewModel.updateFavoriteStatus(it.id, newFavoriteStatus)
+
+                val message = if (newFavoriteStatus) {
+                    "Se agregó la película en la sección de favoritos."
+                } else {
+                    "Se eliminó la película de la sección de favoritos."
+                }
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                updateFavoriteButtonText(newFavoriteStatus)
             }
+        }
+    }
+    private fun updateFavoriteButtonText(isFavorite: Boolean) {
+        if (isFavorite) {
+            binding.buttonFavorite.text = "Eliminar de favoritos"
+        } else {
+            binding.buttonFavorite.text = "Agregar a favoritos"
         }
     }
 }

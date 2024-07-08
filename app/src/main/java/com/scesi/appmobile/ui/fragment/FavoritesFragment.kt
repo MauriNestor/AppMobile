@@ -48,4 +48,8 @@ class FavoritesFragment : Fragment() {
 
         viewModel.getFavoriteMovies()
     }
+    override fun onResume() {
+        super.onResume()
+        viewModel.getFavoriteMovies()
+    }
 }

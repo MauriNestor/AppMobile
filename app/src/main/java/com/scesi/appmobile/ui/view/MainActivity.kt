@@ -9,6 +9,7 @@ import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.scesi.appmobile.R
 import com.scesi.appmobile.databinding.ActivityMainBinding
+import android.util.Log
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -17,6 +18,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val sharedPreferences = getSharedPreferences("onboarding", MODE_PRIVATE)
+        val isFirstInitialization = sharedPreferences.getBoolean("is_first_initialization", true)
+
+        if (isFirstInitialization) {
+            val editor = sharedPreferences.edit()
+            editor.putBoolean("onboarding_complete", false)
+            editor.putBoolean("is_first_initialization", false)
+            editor.apply()
+            Log.d("MainActivity", "onboarding_complete reset to false for the first initialization")
+        }
+
         val onboardingComplete = sharedPreferences.getBoolean("onboarding_complete", false)
 
         if (!onboardingComplete) {
