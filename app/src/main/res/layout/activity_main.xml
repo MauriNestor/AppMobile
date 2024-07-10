@@ -3,10 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-        <!-- Data binding variables if needed -->
-    </data>
-
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
@@ -36,12 +32,13 @@
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/bottom_navigation_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="80dp"
                 android:layout_alignParentBottom="true"
                 android:background="@color/rojo_200"
-                app:itemIconTint="#fff"
-                app:itemTextColor="#fff"
-                app:menu="@menu/bottom_nav_menu" />
+                app:itemIconSize="@dimen/bottom_nav_icon_size"
+                app:itemIconTint="#000000"
+                app:itemTextColor="#000000"
+                app:menu="@menu/bottom_nav_menu"/>
 
         </RelativeLayout>
 

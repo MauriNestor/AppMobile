@@ -10,7 +10,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.scesi.appmobile.R
 import com.scesi.appmobile.databinding.ActivityMainBinding
 import android.util.Log
-
+import android.view.Window
+import android.view.WindowManager
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
@@ -35,6 +36,10 @@ class MainActivity : AppCompatActivity() {
             finish()
             return
         }
+//        val window: Window = window
+//        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+//        window.statusBarColor = resources.getColor(R.color.rojo_200)
+//        window.navigationBarColor = resources.getColor(R.color.rojo_200)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
