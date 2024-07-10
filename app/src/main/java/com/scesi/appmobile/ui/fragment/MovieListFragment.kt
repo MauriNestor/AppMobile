@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.scesi.appmobile.MyApplication
 import com.scesi.appmobile.ui.adapter.MovieAdapter
 import com.scesi.appmobile.ui.viewmodel.MovieViewModel
-import com.scesi.appmobile.ui.viewmodel.MovieViewModelFactory
 import com.scesi.appmobile.databinding.FragmentMovieListBinding
 import com.google.android.material.snackbar.Snackbar
 
@@ -43,14 +42,13 @@ class MovieListFragment : Fragment() {
         movieAdapter = MovieAdapter()
         binding.recyclerView.adapter = movieAdapter
 
-        val application = requireActivity().application as MyApplication
-        val repository = application.repository
-        val factory = MovieViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, factory).get(MovieViewModel::class.java)
+        // Obtener la instancia del ViewModel usando el singleton de MyApplication
+        viewModel = MovieViewModel.getInstance(MyApplication.getRepository())
 
         viewModel.movies.observe(viewLifecycleOwner, Observer { movieList ->
             movieAdapter.submitList(movieList)
         })
+
         binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)

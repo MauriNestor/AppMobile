@@ -21,4 +21,21 @@ class MyApplication : Application() {
             .create(ApiService::class.java)
     }
     val repository by lazy { MovieRepository(database.movieDao(), apiService) }
+
+    companion object {
+        private lateinit var instance: MyApplication
+
+        fun getInstance(): MyApplication {
+            return instance
+        }
+
+        fun getRepository(): MovieRepository {
+            return instance.repository
+        }
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        instance = this
+    }
 }

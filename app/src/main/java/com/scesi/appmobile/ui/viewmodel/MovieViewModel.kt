@@ -9,7 +9,7 @@ import com.scesi.appmobile.data.repository.MovieRepository
 import kotlinx.coroutines.launch
 import java.io.IOException
 
-class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
+class MovieViewModel private constructor(private val repository: MovieRepository) : ViewModel() {
 
     private val _movies = MutableLiveData<List<MovieEntity>>()
     val movies: LiveData<List<MovieEntity>> = _movies
@@ -46,6 +46,7 @@ class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
             }
         }
     }
+
     fun getFavoriteMovies() {
         viewModelScope.launch {
             val favorites = repository.getFavoriteMovies()
@@ -60,5 +61,14 @@ class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
         }
     }
 
+    companion object {
+        @Volatile
+        private var INSTANCE: MovieViewModel? = null
 
+        fun getInstance(repository: MovieRepository): MovieViewModel {
+            return INSTANCE ?: synchronized(this) {
+                INSTANCE ?: MovieViewModel(repository).also { INSTANCE = it }
+            }
+        }
+    }
 }

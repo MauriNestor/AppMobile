@@ -7,28 +7,19 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.scesi.appmobile.MyApplication
 import com.scesi.appmobile.R
 import com.scesi.appmobile.databinding.ActivityMainBinding
-import android.util.Log
-import android.view.Window
-import android.view.WindowManager
+import com.scesi.appmobile.ui.viewmodel.MovieViewModel
+
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var movieViewModel: MovieViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val sharedPreferences = getSharedPreferences("onboarding", MODE_PRIVATE)
-        val isFirstInitialization = sharedPreferences.getBoolean("is_first_initialization", true)
-
-        if (isFirstInitialization) {
-            val editor = sharedPreferences.edit()
-            editor.putBoolean("onboarding_complete", false)
-            editor.putBoolean("is_first_initialization", false)
-            editor.apply()
-            Log.d("MainActivity", "onboarding_complete reset to false for the first initialization")
-        }
-
         val onboardingComplete = sharedPreferences.getBoolean("onboarding_complete", false)
 
         if (!onboardingComplete) {
@@ -36,10 +27,6 @@ class MainActivity : AppCompatActivity() {
             finish()
             return
         }
-//        val window: Window = window
-//        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-//        window.statusBarColor = resources.getColor(R.color.rojo_200)
-//        window.navigationBarColor = resources.getColor(R.color.rojo_200)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -68,6 +55,9 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+
+        val application = application as MyApplication
+        movieViewModel = MovieViewModel.getInstance(application.repository)
     }
 
     override fun onSupportNavigateUp(): Boolean {

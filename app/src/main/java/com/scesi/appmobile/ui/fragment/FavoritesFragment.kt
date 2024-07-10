@@ -5,13 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.scesi.appmobile.MyApplication
 import com.scesi.appmobile.databinding.FragmentFavoritesBinding
 import com.scesi.appmobile.ui.adapter.MovieAdapter
 import com.scesi.appmobile.ui.viewmodel.MovieViewModel
-import com.scesi.appmobile.ui.viewmodel.MovieViewModelFactory
 
 class FavoritesFragment : Fragment() {
 
@@ -30,10 +28,8 @@ class FavoritesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val application = requireNotNull(this.activity).application
-        val repository = (application as MyApplication).repository
-        val factory = MovieViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, factory).get(MovieViewModel::class.java)
+        // Obtener la instancia del ViewModel usando el singleton de MyApplication
+        viewModel = MovieViewModel.getInstance(MyApplication.getRepository())
 
         movieAdapter = MovieAdapter()
 
@@ -48,6 +44,7 @@ class FavoritesFragment : Fragment() {
 
         viewModel.getFavoriteMovies()
     }
+
     override fun onResume() {
         super.onResume()
         viewModel.getFavoriteMovies()
