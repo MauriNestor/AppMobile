@@ -15,18 +15,10 @@ object RetrofitClient {
     }
     private val queryInterceptor = QueryInterceptor("7ad52d9647575a91111e3600fa6cc563")
 
-    private val okHttpClient = OkHttpClient.Builder()
+    val okHttpClient = OkHttpClient.Builder()
         .addInterceptor(loggingInterceptor)
         .addInterceptor(queryInterceptor)
         .build()
-    val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl(Constantes.API_BASE_URL)
-        .client(okHttpClient)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-    val apiService: ApiService = retrofit.create(ApiService::class.java)
-
     class QueryInterceptor(private val apiKey: String) : Interceptor {
         override fun intercept(chain: Interceptor.Chain): Response {
             val originalRequest = chain.request()

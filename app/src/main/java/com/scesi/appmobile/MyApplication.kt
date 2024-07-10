@@ -3,6 +3,7 @@ package com.scesi.appmobile
 import android.app.Application
 import com.scesi.appmobile.data.local.AppDatabase
 import com.scesi.appmobile.data.network.ApiService
+import com.scesi.appmobile.data.network.RetrofitClient
 import com.scesi.appmobile.data.repository.MovieRepository
 import com.scesi.appmobile.utils.Constantes
 import retrofit2.Retrofit
@@ -14,6 +15,7 @@ class MyApplication : Application() {
     val apiService by lazy {
         Retrofit.Builder()
             .baseUrl(Constantes.API_BASE_URL)
+            .client(RetrofitClient.okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiService::class.java)
