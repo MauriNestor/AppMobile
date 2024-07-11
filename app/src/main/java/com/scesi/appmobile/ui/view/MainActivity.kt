@@ -10,11 +10,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.scesi.appmobile.MyApplication
 import com.scesi.appmobile.R
 import com.scesi.appmobile.databinding.ActivityMainBinding
-import com.scesi.appmobile.ui.viewmodel.MovieViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var movieViewModel: MovieViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,9 +53,6 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
-
-        val application = application as MyApplication
-        movieViewModel = MovieViewModel.getInstance(application.repository)
     }
 
     override fun onSupportNavigateUp(): Boolean {

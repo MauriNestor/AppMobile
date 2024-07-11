@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.scesi.appmobile.MyApplication
@@ -42,10 +41,9 @@ class MovieListFragment : Fragment() {
         movieAdapter = MovieAdapter()
         binding.recyclerView.adapter = movieAdapter
 
-        // Obtener la instancia del ViewModel usando el singleton de MyApplication
         viewModel = MovieViewModel.getInstance(MyApplication.getRepository())
 
-        viewModel.movies.observe(viewLifecycleOwner, Observer { movieList ->
+        viewModel.getMoviesLiveData(endpoint).observe(viewLifecycleOwner, Observer { movieList ->
             movieAdapter.submitList(movieList)
         })
 

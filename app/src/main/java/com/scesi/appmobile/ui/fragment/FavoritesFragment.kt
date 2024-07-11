@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.scesi.appmobile.MyApplication
 import com.scesi.appmobile.databinding.FragmentFavoritesBinding
@@ -28,7 +29,6 @@ class FavoritesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Obtener la instancia del ViewModel usando el singleton de MyApplication
         viewModel = MovieViewModel.getInstance(MyApplication.getRepository())
 
         movieAdapter = MovieAdapter()

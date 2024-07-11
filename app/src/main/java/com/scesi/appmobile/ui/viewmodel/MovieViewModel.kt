@@ -9,40 +9,49 @@ import com.scesi.appmobile.data.repository.MovieRepository
 import kotlinx.coroutines.launch
 import java.io.IOException
 
-class MovieViewModel private constructor(private val repository: MovieRepository) : ViewModel() {
+class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
 
-    private val _movies = MutableLiveData<List<MovieEntity>>()
-    val movies: LiveData<List<MovieEntity>> = _movies
+    private val moviesMap = mutableMapOf<String, MutableLiveData<List<MovieEntity>>>()
+    private val currentPageMap = mutableMapOf<String, Int>()
 
     private val _favoriteMovies = MutableLiveData<List<MovieEntity>>()
     val favoriteMovies: LiveData<List<MovieEntity>> = _favoriteMovies
 
-    private val currentMovies = mutableListOf<MovieEntity>()
-    private var currentPage = 1
+    fun getMoviesLiveData(endpoint: String): MutableLiveData<List<MovieEntity>> {
+        return moviesMap.getOrPut(endpoint) { MutableLiveData<List<MovieEntity>>() }
+    }
 
     fun getMovies(endpoint: String) {
+        val liveData = getMoviesLiveData(endpoint)
+        val currentPage = currentPageMap[endpoint] ?: 1
+
         viewModelScope.launch {
             try {
                 val newMovies = repository.getMoviesFromApi(endpoint, currentPage)
+                val currentMovies = liveData.value.orEmpty().toMutableList()
                 currentMovies.addAll(newMovies.distinctBy { it.id })
-                _movies.value = currentMovies
+                liveData.value = currentMovies
             } catch (e: IOException) {
                 val moviesFromDb = repository.getMoviesFromDatabase(endpoint)
-                _movies.postValue(moviesFromDb)
+                liveData.postValue(moviesFromDb)
             }
         }
     }
 
     fun loadNextPage(endpoint: String) {
+        val liveData = getMoviesLiveData(endpoint)
+        val nextPage = (currentPageMap[endpoint] ?: 1) + 1
+
         viewModelScope.launch {
             try {
-                currentPage++
-                val newMovies = repository.getMoviesFromApi(endpoint, currentPage)
+                currentPageMap[endpoint] = nextPage
+                val newMovies = repository.getMoviesFromApi(endpoint, nextPage)
+                val currentMovies = liveData.value.orEmpty().toMutableList()
                 currentMovies.addAll(newMovies.distinctBy { it.id })
-                _movies.postValue(currentMovies)
+                liveData.postValue(currentMovies)
             } catch (e: IOException) {
                 val moviesFromDb = repository.getMoviesFromDatabase(endpoint)
-                _movies.postValue(moviesFromDb)
+                liveData.postValue(moviesFromDb)
             }
         }
     }
@@ -62,8 +71,7 @@ class MovieViewModel private constructor(private val repository: MovieRepository
     }
 
     companion object {
-        @Volatile
-        private var INSTANCE: MovieViewModel? = null
+        @Volatile private var INSTANCE: MovieViewModel? = null
 
         fun getInstance(repository: MovieRepository): MovieViewModel {
             return INSTANCE ?: synchronized(this) {
