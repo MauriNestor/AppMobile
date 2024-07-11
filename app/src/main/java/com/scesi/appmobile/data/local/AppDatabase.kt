@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.scesi.appmobile.data.local.entity.MovieEntity
 
-@Database(entities = [MovieEntity::class], version = 2, exportSchema = false)
+@Database(entities = [MovieEntity::class], version = 3, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun movieDao(): MovieDao

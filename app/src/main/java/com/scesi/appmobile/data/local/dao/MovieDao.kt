@@ -12,7 +12,7 @@ interface MovieDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMovies(movies: List<MovieEntity>)
 
-    @Query("SELECT * FROM movies WHERE category = :category")
+    @Query("SELECT * FROM movies WHERE category = :category ORDER BY lastUpdated DESC")
     suspend fun getMoviesByCategory(category: String): List<MovieEntity>
 
     @Query("SELECT * FROM movies WHERE isFavorite = 1")

@@ -8,11 +8,13 @@ import com.scesi.appmobile.data.local.entity.MovieEntity
 import com.scesi.appmobile.data.repository.MovieRepository
 import kotlinx.coroutines.launch
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
 
     private val moviesMap = mutableMapOf<String, MutableLiveData<List<MovieEntity>>>()
     private val currentPageMap = mutableMapOf<String, Int>()
+    private val cacheExpirationTime = TimeUnit.HOURS.toMillis(1) // 1 hour cache expiration
 
     private val _favoriteMovies = MutableLiveData<List<MovieEntity>>()
     val favoriteMovies: LiveData<List<MovieEntity>> = _favoriteMovies
@@ -27,10 +29,15 @@ class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
 
         viewModelScope.launch {
             try {
-                val newMovies = repository.getMoviesFromApi(endpoint, currentPage)
-                val currentMovies = liveData.value.orEmpty().toMutableList()
-                currentMovies.addAll(newMovies.distinctBy { it.id })
-                liveData.value = currentMovies
+                val moviesFromDb = repository.getMoviesFromDatabase(endpoint)
+                val currentTime = System.currentTimeMillis()
+
+                if (moviesFromDb.isNotEmpty() && currentTime - moviesFromDb.first().lastUpdated < cacheExpirationTime) {
+                    liveData.postValue(moviesFromDb)
+                } else {
+                    val newMovies = repository.getMoviesFromApi(endpoint, currentPage)
+                    liveData.postValue(newMovies)
+                }
             } catch (e: IOException) {
                 val moviesFromDb = repository.getMoviesFromDatabase(endpoint)
                 liveData.postValue(moviesFromDb)

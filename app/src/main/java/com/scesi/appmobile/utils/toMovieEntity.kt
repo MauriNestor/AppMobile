@@ -5,11 +5,13 @@ import com.scesi.appmobile.data.model.Result
 
 fun Result.toMovieEntity(category: String): MovieEntity {
     return MovieEntity(
-        id = this.id,
-        title = this.title,
-        overview = this.overview,
-        posterPath = this.poster_path,
-        voteAverage = this.vote_average,
-        category = category
+        id = id,
+        title = title,
+        posterPath = poster_path,
+        voteAverage = vote_average,
+        overview = overview,
+        category = category,
+        isFavorite = false,
+        lastUpdated = System.currentTimeMillis() // Set the current time as the last updated time
     )
 }
