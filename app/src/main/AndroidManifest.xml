@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppMobile"
         tools:targetApi="31" >
-        <activity android:name=".ui.view.DetailActivity" />
+        <activity android:name=".ui.view.DetailFragment" />
         <activity android:name=".ui.view.OnboardingActivity"/>
 
         <activity

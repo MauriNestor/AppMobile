@@ -1,6 +1,5 @@
 package com.scesi.appmobile.ui.adapter
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -9,10 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.scesi.appmobile.data.local.entity.MovieEntity
 import com.scesi.appmobile.databinding.ItemMovieBinding
-import com.scesi.appmobile.ui.view.DetailActivity
 import com.scesi.appmobile.utils.Constantes
 
-class MovieAdapter : ListAdapter<MovieEntity, MovieAdapter.MovieViewHolder>(MovieDiffCallback()) {
+class MovieAdapter(private val onItemClick: (MovieEntity) -> Unit) : ListAdapter<MovieEntity, MovieAdapter.MovieViewHolder>(MovieDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val binding = ItemMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -37,10 +35,7 @@ class MovieAdapter : ListAdapter<MovieEntity, MovieAdapter.MovieViewHolder>(Movi
                 .into(binding.imageView)
 
             binding.root.setOnClickListener {
-                val context = binding.root.context
-                val intent = Intent(context, DetailActivity::class.java)
-                intent.putExtra("movie", movie)
-                context.startActivity(intent)
+                onItemClick(movie)
             }
         }
     }

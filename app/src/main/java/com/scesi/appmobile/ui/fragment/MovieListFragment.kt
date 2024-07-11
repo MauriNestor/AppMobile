@@ -9,13 +9,15 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.scesi.appmobile.MyApplication
+import com.scesi.appmobile.data.local.entity.MovieEntity
+import com.scesi.appmobile.databinding.FragmentMovieListBinding
 import com.scesi.appmobile.ui.adapter.MovieAdapter
 import com.scesi.appmobile.ui.viewmodel.MovieViewModel
-import com.scesi.appmobile.databinding.FragmentMovieListBinding
-import com.google.android.material.snackbar.Snackbar
 
 class MovieListFragment : Fragment() {
 
@@ -38,7 +40,7 @@ class MovieListFragment : Fragment() {
         endpoint = arguments?.getString("endpoint") ?: "now_playing"
 
         binding.recyclerView.layoutManager = GridLayoutManager(context, 3)
-        movieAdapter = MovieAdapter()
+        movieAdapter = MovieAdapter { movie -> navigateToDetail(movie) }
         binding.recyclerView.adapter = movieAdapter
 
         viewModel = MovieViewModel.getInstance(MyApplication.getRepository())
@@ -70,6 +72,11 @@ class MovieListFragment : Fragment() {
                 }
             }
         })
+    }
+
+    private fun navigateToDetail(movie: MovieEntity) {
+        val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(movie)
+        findNavController().navigate(action)
     }
 
     companion object {

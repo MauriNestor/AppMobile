@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    //safeargs
+    id("androidx.navigation.safeargs.kotlin")
     id("kotlin-kapt")
 }
 
@@ -66,7 +66,6 @@ dependencies {
 // Kotlin Android Extensions
     implementation("androidx.activity:activity-ktx:1.5.1")
     implementation("androidx.fragment:fragment-ktx:1.4.1")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
 
     // Retrofit for API calls
@@ -86,6 +85,10 @@ dependencies {
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
+
+    // Navigation components
+    implementation("androidx.navigation:navigation-fragment-ktx:2.5.0")
+    implementation("androidx.navigation:navigation-ui-ktx:2.5.0")
 
     //fragments
 //    implementation("androidx-navigation.navigation-fragment-ktx:2.7.7")
