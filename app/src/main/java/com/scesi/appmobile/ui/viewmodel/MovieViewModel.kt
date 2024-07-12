@@ -1,5 +1,6 @@
 package com.scesi.appmobile.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,13 +9,12 @@ import com.scesi.appmobile.data.local.entity.MovieEntity
 import com.scesi.appmobile.data.repository.MovieRepository
 import kotlinx.coroutines.launch
 import java.io.IOException
-import java.util.concurrent.TimeUnit
 
 class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
 
     private val moviesMap = mutableMapOf<String, MutableLiveData<List<MovieEntity>>>()
     private val currentPageMap = mutableMapOf<String, Int>()
-    private val cacheExpirationTime = TimeUnit.HOURS.toMillis(1) // 1 hour cache expiration
+    private val isLoadingMap = mutableMapOf<String, Boolean>()
 
     private val _favoriteMovies = MutableLiveData<List<MovieEntity>>()
     val favoriteMovies: LiveData<List<MovieEntity>> = _favoriteMovies
@@ -24,42 +24,45 @@ class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
     }
 
     fun getMovies(endpoint: String) {
+        if (isLoadingMap[endpoint] == true) return
+
         val liveData = getMoviesLiveData(endpoint)
         val currentPage = currentPageMap[endpoint] ?: 1
 
         viewModelScope.launch {
+            isLoadingMap[endpoint] = true
             try {
-                val moviesFromDb = repository.getMoviesFromDatabase(endpoint)
-                val currentTime = System.currentTimeMillis()
-
-                if (moviesFromDb.isNotEmpty() && currentTime - moviesFromDb.first().lastUpdated < cacheExpirationTime) {
-                    liveData.postValue(moviesFromDb)
-                } else {
-                    val newMovies = repository.getMoviesFromApi(endpoint, currentPage)
-                    liveData.postValue(newMovies)
-                }
+                val movies = repository.getMovies(endpoint, currentPage)
+                liveData.postValue(movies)
+                Log.d("MovieViewModel", "Fetched ${movies.size} movies for endpoint $endpoint")
             } catch (e: IOException) {
-                val moviesFromDb = repository.getMoviesFromDatabase(endpoint)
-                liveData.postValue(moviesFromDb)
+                Log.e("MovieViewModel", "Error fetching movies for endpoint $endpoint: ${e.message}")
+                // Handle error loading data
             }
+            isLoadingMap[endpoint] = false
         }
     }
 
     fun loadNextPage(endpoint: String) {
+        if (isLoadingMap[endpoint] == true) return
+
         val liveData = getMoviesLiveData(endpoint)
         val nextPage = (currentPageMap[endpoint] ?: 1) + 1
 
         viewModelScope.launch {
+            isLoadingMap[endpoint] = true
             try {
-                currentPageMap[endpoint] = nextPage
-                val newMovies = repository.getMoviesFromApi(endpoint, nextPage)
+                val newMovies = repository.getMovies(endpoint, nextPage)
                 val currentMovies = liveData.value.orEmpty().toMutableList()
                 currentMovies.addAll(newMovies.distinctBy { it.id })
                 liveData.postValue(currentMovies)
+                currentPageMap[endpoint] = nextPage
+                Log.d("MovieViewModel", "Loaded next page $nextPage for endpoint $endpoint")
             } catch (e: IOException) {
-                val moviesFromDb = repository.getMoviesFromDatabase(endpoint)
-                liveData.postValue(moviesFromDb)
+                Log.e("MovieViewModel", "Error loading next page for endpoint $endpoint: ${e.message}")
+                // Handle error loading next page from API
             }
+            isLoadingMap[endpoint] = false
         }
     }
 
@@ -67,6 +70,7 @@ class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
         viewModelScope.launch {
             val favorites = repository.getFavoriteMovies()
             _favoriteMovies.postValue(favorites)
+            Log.d("MovieViewModel", "Fetched ${favorites.size} favorite movies")
         }
     }
 

@@ -3,6 +3,7 @@ package com.scesi.appmobile.ui.fragment
 import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,6 +48,7 @@ class MovieListFragment : Fragment() {
 
         viewModel.getMoviesLiveData(endpoint).observe(viewLifecycleOwner, Observer { movieList ->
             movieAdapter.submitList(movieList)
+            Log.d("MovieListFragment", "Displayed ${movieList.size} movies for endpoint $endpoint")
         })
 
         binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -62,7 +64,9 @@ class MovieListFragment : Fragment() {
             }
         })
 
-        viewModel.getMovies(endpoint)
+        if (viewModel.getMoviesLiveData(endpoint).value.isNullOrEmpty()) {
+            viewModel.getMovies(endpoint)
+        }
 
         binding.root.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
