@@ -31,7 +31,7 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val application = MyApplication.getInstance()
-        movieViewModel = MovieViewModel.getInstance(application.repository)
+        movieViewModel = MovieViewModel.getInstance(application.repository, requireContext())
 
         val movie: MovieEntity? = arguments?.getSerializable("movie") as? MovieEntity
         movie?.let {

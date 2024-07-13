@@ -1,16 +1,17 @@
 package com.scesi.appmobile.ui.viewmodel
 
-import android.util.Log
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.scesi.appmobile.data.local.entity.MovieEntity
 import com.scesi.appmobile.data.repository.MovieRepository
+import com.scesi.appmobile.utils.NetworkUtils
 import kotlinx.coroutines.launch
 import java.io.IOException
 
-class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
+class MovieViewModel(private val repository: MovieRepository, private val context: Context) : ViewModel() {
 
     private val moviesMap = mutableMapOf<String, MutableLiveData<List<MovieEntity>>>()
     private val currentPageMap = mutableMapOf<String, Int>()
@@ -24,27 +25,29 @@ class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
     }
 
     fun getMovies(endpoint: String) {
-        if (isLoadingMap[endpoint] == true) return
-
         val liveData = getMoviesLiveData(endpoint)
         val currentPage = currentPageMap[endpoint] ?: 1
+
+        if (isLoadingMap[endpoint] == true) return
 
         viewModelScope.launch {
             isLoadingMap[endpoint] = true
             try {
-                val movies = repository.getMovies(endpoint, currentPage)
+                val movies = if (NetworkUtils.isOnline(context)) {
+                    repository.getMovies(endpoint, currentPage)
+                } else {
+                    repository.getMoviesFromDatabase(endpoint)
+                }
                 liveData.postValue(movies)
-                Log.d("MovieViewModel", "Fetched ${movies.size} movies for endpoint $endpoint")
             } catch (e: IOException) {
-                Log.e("MovieViewModel", "Error fetching movies for endpoint $endpoint: ${e.message}")
-                // Handle error loading data
+                liveData.postValue(repository.getMoviesFromDatabase(endpoint))
             }
             isLoadingMap[endpoint] = false
         }
     }
 
     fun loadNextPage(endpoint: String) {
-        if (isLoadingMap[endpoint] == true) return
+        if (isLoadingMap[endpoint] == true || !NetworkUtils.isOnline(context)) return
 
         val liveData = getMoviesLiveData(endpoint)
         val nextPage = (currentPageMap[endpoint] ?: 1) + 1
@@ -57,9 +60,7 @@ class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
                 currentMovies.addAll(newMovies.distinctBy { it.id })
                 liveData.postValue(currentMovies)
                 currentPageMap[endpoint] = nextPage
-                Log.d("MovieViewModel", "Loaded next page $nextPage for endpoint $endpoint")
             } catch (e: IOException) {
-                Log.e("MovieViewModel", "Error loading next page for endpoint $endpoint: ${e.message}")
                 // Handle error loading next page from API
             }
             isLoadingMap[endpoint] = false
@@ -70,7 +71,6 @@ class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
         viewModelScope.launch {
             val favorites = repository.getFavoriteMovies()
             _favoriteMovies.postValue(favorites)
-            Log.d("MovieViewModel", "Fetched ${favorites.size} favorite movies")
         }
     }
 
@@ -84,9 +84,9 @@ class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
     companion object {
         @Volatile private var INSTANCE: MovieViewModel? = null
 
-        fun getInstance(repository: MovieRepository): MovieViewModel {
+        fun getInstance(repository: MovieRepository, context: Context): MovieViewModel {
             return INSTANCE ?: synchronized(this) {
-                INSTANCE ?: MovieViewModel(repository).also { INSTANCE = it }
+                INSTANCE ?: MovieViewModel(repository, context).also { INSTANCE = it }
             }
         }
     }

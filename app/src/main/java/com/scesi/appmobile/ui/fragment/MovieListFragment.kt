@@ -44,10 +44,10 @@ class MovieListFragment : Fragment() {
         movieAdapter = MovieAdapter { movie -> navigateToDetail(movie) }
         binding.recyclerView.adapter = movieAdapter
 
-        viewModel = MovieViewModel.getInstance(MyApplication.getRepository())
+        viewModel = MovieViewModel.getInstance(MyApplication.getRepository(), requireContext())
 
         viewModel.getMoviesLiveData(endpoint).observe(viewLifecycleOwner, Observer { movieList ->
-            movieAdapter.submitList(movieList)
+            movieAdapter.submitList(movieList.distinctBy { it.id })
             Log.d("MovieListFragment", "Displayed ${movieList.size} movies for endpoint $endpoint")
         })
 
@@ -73,6 +73,7 @@ class MovieListFragment : Fragment() {
                 binding.root.viewTreeObserver.removeOnGlobalLayoutListener(this)
                 if (!isConnected()) {
                     Snackbar.make(binding.root, "No internet connection. Loading from database...", Snackbar.LENGTH_LONG).show()
+                    viewModel.getMovies(endpoint)
                 }
             }
         })
