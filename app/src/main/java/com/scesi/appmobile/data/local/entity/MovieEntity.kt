@@ -13,5 +13,7 @@ data class MovieEntity(
     val overview: String,
     val category: String,
     var isFavorite: Boolean = false,
-    val lastUpdated: Long
+    val lastUpdated: Long,
+    val popularity: Double,
+    val releaseDate: String
 ) : Serializable

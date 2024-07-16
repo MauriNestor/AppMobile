@@ -11,6 +11,8 @@ fun Result.toMovieEntity(category: String): MovieEntity {
         voteAverage = this.vote_average,
         overview = this.overview,
         category = category,
-        lastUpdated = System.currentTimeMillis()
+        lastUpdated = System.currentTimeMillis(),
+        popularity = this.popularity,
+        releaseDate = this.release_date
     )
 }

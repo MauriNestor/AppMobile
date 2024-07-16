@@ -40,7 +40,7 @@ class MovieListFragment : Fragment() {
 
         endpoint = arguments?.getString("endpoint") ?: "now_playing"
 
-        binding.recyclerView.layoutManager = GridLayoutManager(context, 3)
+        binding.recyclerView.layoutManager = GridLayoutManager(context, 1)
         movieAdapter = MovieAdapter { movie -> navigateToDetail(movie) }
         binding.recyclerView.adapter = movieAdapter
 

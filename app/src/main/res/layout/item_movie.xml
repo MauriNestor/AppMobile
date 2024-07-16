@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -7,44 +8,111 @@
             type="com.scesi.appmobile.data.local.entity.MovieEntity" />
     </data>
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_margin="10dp"
+        app:cardCornerRadius="6dp"
+        app:cardElevation="8dp">
 
-        <ImageView
-            android:id="@+id/imageView"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:scaleType="centerCrop" />
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/textViewTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="2"
-            android:text="@{movie.title}" />
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="92dp"
+                android:layout_height="162dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:scaleType="centerCrop" />
 
-        <TextView
-            android:id="@+id/textViewOverview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="2"
-            android:text="@{movie.overview}" />
+            <TextView
+                android:id="@+id/textViewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/imageView"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:paddingBottom="8dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="8dp"
+                android:text="@{movie.title}"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/textViewRating"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="2"
-            android:text="@{String.valueOf(movie.voteAverage)}" />
+            <TextView
+                android:id="@+id/textViewDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textViewTitle"
+                android:layout_toRightOf="@id/imageView"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:paddingBottom="4dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="0dp"
+                android:text='@{"Release " + movie.releaseDate}'
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textColor="@color/gris_200"
+                android:textSize="12sp" />
 
-<!--        <TextView-->
-<!--            android:id="@+id/textViewPopularity"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:maxLines="2"-->
-<!--            android:text='@{"Popularity: " + movie.popularity}' />-->
+            <TextView
+                android:id="@+id/textViewOverview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textViewDate"
+                android:layout_toRightOf="@id/imageView"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:paddingBottom="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="8dp"
+                android:text="@{movie.overview}"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textSize="14sp" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/textViewRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textViewOverview"
+                android:layout_toRightOf="@id/imageView"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:paddingBottom="8dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="0dp"
+                android:text='@{"Rating " + String.valueOf(movie.voteAverage)}'
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textColor="@color/gris_200"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/textViewPopularity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/textViewOverview"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:paddingBottom="8dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="0dp"
+                android:text='@{"Popularity " + String.valueOf(movie.popularity)}'
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textColor="@color/gris_200"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
 </layout>
