@@ -35,23 +35,6 @@ class MovieRepository(private val movieDao: MovieDao, private val apiService: Ap
         return movieDao.getMoviesByCategory(category)
     }
 
-    suspend fun loadNextPage(category: String, page: Int): List<MovieEntity> {
-        return withContext(Dispatchers.IO) {
-            try {
-                val response = apiService.getMovies(category, page)
-                val currentTime = System.currentTimeMillis()
-                val movies = response.results.map {
-                    it.toMovieEntity(category).copy(lastUpdated = currentTime)
-                }
-                movieDao.insertMovies(movies)
-                return@withContext movies
-            } catch (e: IOException) {
-                Log.e("MovieRepository", "Error loading next page: ${e.message}")
-                return@withContext emptyList()
-            }
-        }
-    }
-
     suspend fun getFavoriteMovies(): List<MovieEntity> {
         return movieDao.getFavoriteMovies()
     }
