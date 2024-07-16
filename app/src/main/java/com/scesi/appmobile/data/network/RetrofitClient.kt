@@ -1,12 +1,9 @@
 package com.scesi.appmobile.data.network
 
-import com.scesi.appmobile.utils.Constantes
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.Interceptor
 import okhttp3.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
 

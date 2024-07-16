@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.scesi.appmobile.data.local.entity.MovieEntity
 import com.scesi.appmobile.databinding.ItemMovieBinding
-import com.scesi.appmobile.utils.Constantes
+import com.scesi.appmobile.utils.Constants
 
 class MovieAdapter(private val onItemClick: (MovieEntity) -> Unit) : ListAdapter<MovieEntity, MovieAdapter.MovieViewHolder>(MovieDiffCallback()) {
 
@@ -29,7 +29,7 @@ class MovieAdapter(private val onItemClick: (MovieEntity) -> Unit) : ListAdapter
             binding.movie = movie
             binding.executePendingBindings()
 
-            val posterUrl = "${Constantes.IMG_BASE_URL}${movie.posterPath}"
+            val posterUrl = "${Constants.IMG_BASE_URL}${movie.posterPath}"
             Glide.with(binding.imageView.context)
                 .load(posterUrl)
                 .into(binding.imageView)

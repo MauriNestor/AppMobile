@@ -6,12 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.scesi.appmobile.MyApplication
+import com.scesi.appmobile.R
 import com.scesi.appmobile.data.local.entity.MovieEntity
 import com.scesi.appmobile.databinding.FragmentDetailBinding
 import com.scesi.appmobile.ui.viewmodel.MovieViewModel
-import com.scesi.appmobile.utils.Constantes
+import com.scesi.appmobile.utils.Constants
 
 class DetailFragment : Fragment() {
 
@@ -31,21 +33,24 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val application = MyApplication.getInstance()
-        movieViewModel = MovieViewModel.getInstance(application.repository, requireContext())
+        val repository = application.repository
+        val context = requireContext()
+
+        movieViewModel = MovieViewModel.getInstance(repository, context)
 
         val movie: MovieEntity? = arguments?.getSerializable("movie") as? MovieEntity
         movie?.let {
             binding.movie = it
-            val posterUrl = "${Constantes.IMG_BASE_URL}${it.posterPath}"
+
+            val posterUrl = "${Constants.IMG_BASE_URL}${it.posterPath}"
             Glide.with(this)
                 .load(posterUrl)
                 .into(binding.imageViewBackdrop)
 
-            binding.buttonBack.setOnClickListener {
-                requireActivity().onBackPressedDispatcher.onBackPressed()
-            }
-            updateFavoriteButtonText(it.isFavorite)
-            binding.buttonFavorite.setOnClickListener { view ->
+            (activity as? AppCompatActivity)?.supportActionBar?.title = it.title ?: "Movie Details"
+
+            updateFavoriteIcon(it.isFavorite)
+            binding.fabFavorite.setOnClickListener { view ->
                 val newFavoriteStatus = !it.isFavorite
                 it.isFavorite = newFavoriteStatus
                 movieViewModel.updateFavoriteStatus(it.id, newFavoriteStatus)
@@ -56,16 +61,16 @@ class DetailFragment : Fragment() {
                     "Se eliminó la película de la sección de favoritos."
                 }
                 Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-                updateFavoriteButtonText(newFavoriteStatus)
+                updateFavoriteIcon(newFavoriteStatus)
             }
         }
     }
 
-    private fun updateFavoriteButtonText(isFavorite: Boolean) {
+    private fun updateFavoriteIcon(isFavorite: Boolean) {
         if (isFavorite) {
-            binding.buttonFavorite.text = "Eliminar de favoritos"
+            binding.fabFavorite.setImageResource(R.drawable.corazon_24)
         } else {
-            binding.buttonFavorite.text = "Agregar a favoritos"
+            binding.fabFavorite.setImageResource(R.drawable.corazon_25)
         }
     }
 
