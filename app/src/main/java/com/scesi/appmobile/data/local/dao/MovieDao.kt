@@ -1,4 +1,4 @@
-package com.scesi.appmobile.data.local
+package com.scesi.appmobile.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Insert

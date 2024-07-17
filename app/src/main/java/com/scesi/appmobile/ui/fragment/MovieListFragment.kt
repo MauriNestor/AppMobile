@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.scesi.appmobile.MyApplication
-import com.scesi.appmobile.data.local.entity.MovieEntity
 import com.scesi.appmobile.databinding.FragmentMovieListBinding
 import com.scesi.appmobile.domain.model.Movie
 import com.scesi.appmobile.ui.adapter.MovieAdapter
@@ -65,12 +64,13 @@ class MovieListFragment : Fragment() {
         if (viewModel.getMoviesLiveData(endpoint).value.isNullOrEmpty()) {
             viewModel.getMovies(endpoint)
         }
+    }
 
-        binding.root.viewTreeObserver.addOnGlobalLayoutListener {
-            if (!isConnected()) {
-                Snackbar.make(binding.root, "No internet connection. Loading from database...", Snackbar.LENGTH_LONG).show()
-                viewModel.getMovies(endpoint)
-            }
+    override fun onResume() {
+        super.onResume()
+        if (!isConnected()) {
+            Snackbar.make(binding.root, "No internet connection. Loading from database...", Snackbar.LENGTH_LONG).show()
+            viewModel.getMovies(endpoint)
         }
     }
 
@@ -100,7 +100,7 @@ class MovieListFragment : Fragment() {
     }
 
     private fun isConnected(): Boolean {
-        val connectivityManager = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connectivityManager = requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = connectivityManager.activeNetworkInfo
         return networkInfo != null && networkInfo.isConnected
     }

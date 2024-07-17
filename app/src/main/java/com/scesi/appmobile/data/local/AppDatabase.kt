@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.scesi.appmobile.data.local.dao.MovieDao
 import com.scesi.appmobile.data.local.entity.MovieEntity
 
 @Database(entities = [MovieEntity::class], version = 4, exportSchema = false)
@@ -22,7 +23,7 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "movie_database"
                 )
-                    .fallbackToDestructiveMigration()
+                    .fallbackToDestructiveMigration() // This will allow destructive migrations
                     .build()
                 INSTANCE = instance
                 instance
