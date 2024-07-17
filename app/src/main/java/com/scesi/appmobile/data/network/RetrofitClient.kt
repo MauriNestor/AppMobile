@@ -10,7 +10,7 @@ object RetrofitClient {
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
     }
-    private val queryInterceptor = QueryInterceptor("7ad52d9647575a91111e3600fa6cc563")
+    private val queryInterceptor = QueryInterceptor("BuildConfig.API_KEY")
 
     val okHttpClient = OkHttpClient.Builder()
         .addInterceptor(loggingInterceptor)
