@@ -6,7 +6,7 @@
     <data>
         <variable
             name="movie"
-            type="com.scesi.appmobile.data.local.entity.MovieEntity" />
+            type="com.scesi.appmobile.domain.model.Movie" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

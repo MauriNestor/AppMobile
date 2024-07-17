@@ -5,23 +5,24 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.scesi.appmobile.data.local.entity.MovieEntity
 import com.scesi.appmobile.data.repository.MovieRepository
+import com.scesi.appmobile.domain.model.Movie
 import com.scesi.appmobile.utils.NetworkUtils
+import com.scesi.appmobile.utils.toDomainModel
 import kotlinx.coroutines.launch
 import java.io.IOException
 
 class MovieViewModel(private val repository: MovieRepository, private val context: Context) : ViewModel() {
 
-    private val moviesMap = mutableMapOf<String, MutableLiveData<List<MovieEntity>>>()
+    private val moviesMap = mutableMapOf<String, MutableLiveData<List<Movie>>>()
     private val currentPageMap = mutableMapOf<String, Int>()
     private val isLoadingMap = mutableMapOf<String, Boolean>()
 
-    private val _favoriteMovies = MutableLiveData<List<MovieEntity>>()
-    val favoriteMovies: LiveData<List<MovieEntity>> = _favoriteMovies
+    private val _favoriteMovies = MutableLiveData<List<Movie>>()
+    val favoriteMovies: LiveData<List<Movie>> = _favoriteMovies
 
-    fun getMoviesLiveData(endpoint: String): MutableLiveData<List<MovieEntity>> {
-        return moviesMap.getOrPut(endpoint) { MutableLiveData<List<MovieEntity>>() }
+    fun getMoviesLiveData(endpoint: String): MutableLiveData<List<Movie>> {
+        return moviesMap.getOrPut(endpoint) { MutableLiveData<List<Movie>>() }
     }
 
     fun getMovies(endpoint: String) {
@@ -34,13 +35,13 @@ class MovieViewModel(private val repository: MovieRepository, private val contex
             isLoadingMap[endpoint] = true
             try {
                 val movies = if (NetworkUtils.isOnline(context)) {
-                    repository.getMovies(endpoint, currentPage)
+                    repository.getMovies(endpoint, currentPage).map { it.toDomainModel() }
                 } else {
-                    repository.getMoviesFromDatabase(endpoint)
+                    repository.getMoviesFromDatabase(endpoint).map { it.toDomainModel() }
                 }
                 liveData.postValue(movies)
             } catch (e: IOException) {
-                liveData.postValue(repository.getMoviesFromDatabase(endpoint))
+                liveData.postValue(repository.getMoviesFromDatabase(endpoint).map { it.toDomainModel() })
             }
             isLoadingMap[endpoint] = false
         }
@@ -55,7 +56,7 @@ class MovieViewModel(private val repository: MovieRepository, private val contex
         viewModelScope.launch {
             isLoadingMap[endpoint] = true
             try {
-                val newMovies = repository.getMovies(endpoint, nextPage)
+                val newMovies = repository.getMovies(endpoint, nextPage).map { it.toDomainModel() }
                 val currentMovies = liveData.value.orEmpty().toMutableList()
                 currentMovies.addAll(newMovies.distinctBy { it.id })
                 liveData.postValue(currentMovies)
@@ -69,7 +70,7 @@ class MovieViewModel(private val repository: MovieRepository, private val contex
 
     fun getFavoriteMovies() {
         viewModelScope.launch {
-            val favorites = repository.getFavoriteMovies()
+            val favorites = repository.getFavoriteMovies().map { it.toDomainModel() }
             _favoriteMovies.postValue(favorites)
         }
     }

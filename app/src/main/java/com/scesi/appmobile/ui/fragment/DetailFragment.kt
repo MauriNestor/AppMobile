@@ -10,8 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.scesi.appmobile.MyApplication
 import com.scesi.appmobile.R
-import com.scesi.appmobile.data.local.entity.MovieEntity
 import com.scesi.appmobile.databinding.FragmentDetailBinding
+import com.scesi.appmobile.domain.model.Movie
 import com.scesi.appmobile.ui.viewmodel.MovieViewModel
 import com.scesi.appmobile.utils.Constants
 
@@ -38,22 +38,42 @@ class DetailFragment : Fragment() {
 
         movieViewModel = MovieViewModel.getInstance(repository, context)
 
-        val movie: MovieEntity? = arguments?.getSerializable("movie") as? MovieEntity
-        movie?.let {
-            binding.movie = it
+        val movieId = arguments?.getInt("movieId")
+        val title = arguments?.getString("title")
+        val overview = arguments?.getString("overview")
+        val posterPath = arguments?.getString("posterPath")
+        val voteAverage = arguments?.getFloat("voteAverage")
+        val releaseDate = arguments?.getString("releaseDate")
+        val popularity = arguments?.getFloat("popularity")
+        val category = arguments?.getString("category")
+        val isFavorite = arguments?.getBoolean("isFavorite")
 
-            val posterUrl = "${Constants.IMG_BASE_URL}${it.posterPath}"
+        if (movieId != null && title != null && overview != null && posterPath != null && voteAverage != null && releaseDate != null && popularity != null && category != null && isFavorite != null) {
+            val movie = Movie(
+                id = movieId,
+                title = title,
+                overview = overview,
+                posterPath = posterPath,
+                voteAverage = voteAverage.toDouble(),
+                releaseDate = releaseDate,
+                popularity = popularity.toDouble(),
+                category = category,
+                isFavorite = isFavorite
+            )
+            binding.movie = movie
+
+            val posterUrl = "${Constants.IMG_BASE_URL}${posterPath}"
             Glide.with(this)
                 .load(posterUrl)
                 .into(binding.imageViewBackdrop)
 
-            (activity as? AppCompatActivity)?.supportActionBar?.title = it.title ?: "Movie Details"
+            (activity as? AppCompatActivity)?.supportActionBar?.title = title
 
-            updateFavoriteIcon(it.isFavorite)
-            binding.fabFavorite.setOnClickListener { view ->
-                val newFavoriteStatus = !it.isFavorite
-                it.isFavorite = newFavoriteStatus
-                movieViewModel.updateFavoriteStatus(it.id, newFavoriteStatus)
+            updateFavoriteIcon(movie.isFavorite)
+            binding.fabFavorite.setOnClickListener {
+                val newFavoriteStatus = !movie.isFavorite
+                movie.isFavorite = newFavoriteStatus
+                movieViewModel.updateFavoriteStatus(movieId, newFavoriteStatus)
 
                 val message = if (newFavoriteStatus) {
                     "Se agregó la película en la sección de favoritos."

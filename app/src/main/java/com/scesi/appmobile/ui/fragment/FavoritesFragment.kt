@@ -9,8 +9,8 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.scesi.appmobile.MyApplication
-import com.scesi.appmobile.data.local.entity.MovieEntity
 import com.scesi.appmobile.databinding.FragmentFavoritesBinding
+import com.scesi.appmobile.domain.model.Movie
 import com.scesi.appmobile.ui.adapter.MovieAdapter
 import com.scesi.appmobile.ui.viewmodel.MovieViewModel
 
@@ -47,8 +47,18 @@ class FavoritesFragment : Fragment() {
         viewModel.getFavoriteMovies()
     }
 
-    private fun navigateToDetail(movie: MovieEntity) {
-        val action = FavoritesFragmentDirections.actionFavoritesFragmentToDetailFragment(movie)
+    private fun navigateToDetail(movie: Movie) {
+        val action = FavoritesFragmentDirections.actionFavoritesFragmentToDetailFragment(
+            movie.id,
+            movie.title,
+            movie.overview,
+            movie.posterPath ?: "",
+            movie.voteAverage.toFloat(),
+            movie.releaseDate,
+            movie.popularity.toFloat(),
+            movie.category,
+            movie.isFavorite
+        )
         findNavController().navigate(action)
     }
 

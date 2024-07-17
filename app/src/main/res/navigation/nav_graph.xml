@@ -29,7 +29,31 @@
         android:label="Detail"
         tools:layout="@layout/fragment_detail">
         <argument
-            android:name="movie"
-            app:argType="com.scesi.appmobile.data.local.entity.MovieEntity" />
+            android:name="movieId"
+            app:argType="integer" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="overview"
+            app:argType="string" />
+        <argument
+            android:name="posterPath"
+            app:argType="string" />
+        <argument
+            android:name="voteAverage"
+            app:argType="float" />
+        <argument
+            android:name="releaseDate"
+            app:argType="string" />
+        <argument
+            android:name="popularity"
+            app:argType="float" />
+        <argument
+            android:name="category"
+            app:argType="string" />
+        <argument
+            android:name="isFavorite"
+            app:argType="boolean" />
     </fragment>
 </navigation>

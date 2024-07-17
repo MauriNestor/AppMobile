@@ -3,11 +3,9 @@ package com.scesi.appmobile.ui.fragment
 import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -17,6 +15,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.scesi.appmobile.MyApplication
 import com.scesi.appmobile.data.local.entity.MovieEntity
 import com.scesi.appmobile.databinding.FragmentMovieListBinding
+import com.scesi.appmobile.domain.model.Movie
 import com.scesi.appmobile.ui.adapter.MovieAdapter
 import com.scesi.appmobile.ui.viewmodel.MovieViewModel
 
@@ -48,7 +47,6 @@ class MovieListFragment : Fragment() {
 
         viewModel.getMoviesLiveData(endpoint).observe(viewLifecycleOwner, Observer { movieList ->
             movieAdapter.submitList(movieList.distinctBy { it.id })
-            Log.d("MovieListFragment", "Displayed ${movieList.size} movies for endpoint $endpoint")
         })
 
         binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -68,19 +66,26 @@ class MovieListFragment : Fragment() {
             viewModel.getMovies(endpoint)
         }
 
-        binding.root.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                binding.root.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                if (!isConnected()) {
-                    Snackbar.make(binding.root, "No internet connection. Loading from database...", Snackbar.LENGTH_LONG).show()
-                    viewModel.getMovies(endpoint)
-                }
+        binding.root.viewTreeObserver.addOnGlobalLayoutListener {
+            if (!isConnected()) {
+                Snackbar.make(binding.root, "No internet connection. Loading from database...", Snackbar.LENGTH_LONG).show()
+                viewModel.getMovies(endpoint)
             }
-        })
+        }
     }
 
-    private fun navigateToDetail(movie: MovieEntity) {
-        val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(movie)
+    private fun navigateToDetail(movie: Movie) {
+        val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(
+            movie.id,
+            movie.title,
+            movie.overview,
+            movie.posterPath ?: "",
+            movie.voteAverage.toFloat(),
+            movie.releaseDate,
+            movie.popularity.toFloat(),
+            movie.category,
+            movie.isFavorite
+        )
         findNavController().navigate(action)
     }
 

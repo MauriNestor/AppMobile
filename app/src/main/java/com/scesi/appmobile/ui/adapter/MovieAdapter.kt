@@ -6,11 +6,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.scesi.appmobile.data.local.entity.MovieEntity
 import com.scesi.appmobile.databinding.ItemMovieBinding
+import com.scesi.appmobile.domain.model.Movie
 import com.scesi.appmobile.utils.Constants
 
-class MovieAdapter(private val onItemClick: (MovieEntity) -> Unit) : ListAdapter<MovieEntity, MovieAdapter.MovieViewHolder>(MovieDiffCallback()) {
+class MovieAdapter(private val onItemClick: (Movie) -> Unit) : ListAdapter<Movie, MovieAdapter.MovieViewHolder>(MovieDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val binding = ItemMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -25,7 +25,7 @@ class MovieAdapter(private val onItemClick: (MovieEntity) -> Unit) : ListAdapter
     inner class MovieViewHolder(private val binding: ItemMovieBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(movie: MovieEntity) {
+        fun bind(movie: Movie) {
             binding.movie = movie
             binding.executePendingBindings()
 
@@ -40,12 +40,12 @@ class MovieAdapter(private val onItemClick: (MovieEntity) -> Unit) : ListAdapter
         }
     }
 
-    class MovieDiffCallback : DiffUtil.ItemCallback<MovieEntity>() {
-        override fun areItemsTheSame(oldItem: MovieEntity, newItem: MovieEntity): Boolean {
+    class MovieDiffCallback : DiffUtil.ItemCallback<Movie>() {
+        override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: MovieEntity, newItem: MovieEntity): Boolean {
+        override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
             return oldItem == newItem
         }
     }
