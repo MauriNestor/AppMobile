@@ -15,9 +15,10 @@
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="?attr/actionBarSize"
                 android:background="@color/rojo_200"
-                android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
+                android:theme="@style/ToolbarStyle"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/nav_host_fragment"
@@ -35,8 +36,8 @@
                 android:layout_alignParentBottom="true"
                 android:background="@color/rojo_200"
                 app:itemIconSize="@dimen/bottom_nav_icon_size"
-                app:itemIconTint="#000000"
-                app:itemTextColor="#000000"
+                app:itemIconTint="@color/white"
+                app:itemTextColor="@color/white"
                 app:menu="@menu/bottom_nav_menu" />
 
         </RelativeLayout>

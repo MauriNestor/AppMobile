@@ -11,6 +11,6 @@
     <color name="rojo_200">#C8453B</color>
     <color name="blanco_200">#CCFFFFFF</color>
     <color name="azul_200">#3F51B5</color>
-    <color name="transparent_background">#80FFFFFF</color>
+    <color name="gris_300">#803C3838</color>
     <color name="transparent">#00000000</color>
 </resources>

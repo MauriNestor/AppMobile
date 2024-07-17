@@ -11,4 +11,12 @@
 
 <!--screensPrevious-->
     <string name="screenText">Welcome to The Movie Box</string>
+
+<!--    detail-->
+    <string name="movie_overview_label">Overview</string>
+    <string name="movie_status_label">Status</string>
+    <string name="movie_lang_label">Language</string>
+    <string name="movie_budget_label">Budget</string>
+    <string name="movie_revenue_label">Revenue</string>
+    <string name="add_to_favorites">Add to Favorites</string>
 </resources>

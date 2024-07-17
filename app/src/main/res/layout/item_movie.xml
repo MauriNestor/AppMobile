@@ -56,9 +56,9 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:paddingTop="0dp"
-                android:text='@{"Release " + movie.releaseDate}'
+                android:text='@{"Release: " + movie.releaseDate}'
                 android:textAppearance="?attr/textAppearanceBody2"
-                android:textColor="@color/gris_200"
+                android:textColor="@color/gris_300"
                 android:textSize="12sp" />
 
             <TextView
@@ -68,14 +68,14 @@
                 android:layout_below="@id/textViewDate"
                 android:layout_toRightOf="@id/imageView"
                 android:ellipsize="end"
-                android:maxLines="2"
+                android:maxLines="3"
                 android:paddingBottom="16dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:paddingTop="8dp"
                 android:text="@{movie.overview}"
                 android:textAppearance="?attr/textAppearanceBody2"
-                android:textSize="14sp" />
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/textViewRating"
@@ -90,10 +90,10 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:paddingTop="0dp"
-                android:text='@{"Rating " + String.valueOf(movie.voteAverage)}'
+                android:text='@{"Rating: " + String.valueOf(movie.voteAverage)}'
                 android:textAppearance="?attr/textAppearanceBody2"
-                android:textColor="@color/gris_200"
-                android:textSize="12sp" />
+                android:textColor="@color/gris_300"
+                android:textSize="10sp" />
 
             <TextView
                 android:id="@+id/textViewPopularity"
@@ -108,10 +108,10 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:paddingTop="0dp"
-                android:text='@{"Popularity " + String.valueOf(movie.popularity)}'
+                android:text='@{"Popularity: " + String.valueOf(movie.popularity)}'
                 android:textAppearance="?attr/textAppearanceBody2"
-                android:textColor="@color/gris_200"
-                android:textSize="12sp" />
+                android:textColor="@color/gris_300"
+                android:textSize="10sp" />
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>

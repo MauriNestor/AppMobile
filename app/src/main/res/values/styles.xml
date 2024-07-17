@@ -1,5 +1,26 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <style name="BottomNavigationViewTextStyle" parent="TextAppearance.AppCompat.Caption">
         <item name="android:textSize">18sp</item>
     </style>
+
+    <style name="ToolbarStyle" parent="Widget.AppCompat.Toolbar">
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+        <item name="titleTextColor">@android:color/white</item>
+        <item name="android:paddingTop">5dp</item>
+    </style>
+
+    <!-- Custom text appearances -->
+    <style name="TextAppearance.AppCompat.Headline" parent="TextAppearance.AppCompat.Large">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="TextAppearance.AppCompat.Subhead" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="TextAppearance.AppCompat.Body1" parent="TextAppearance.AppCompat.Body1" tools:ignore="ResourceCycle">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
 </resources>
