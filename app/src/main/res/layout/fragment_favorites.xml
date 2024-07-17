@@ -1,11 +1,27 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.fragment.FavoritesFragment">
+
     <data>
         <variable
             name="viewModel"
             type="com.scesi.appmobile.ui.viewmodel.MovieViewModel" />
     </data>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewFavorites"
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:paddingBottom="80dp"
+        android:clipToPadding="false">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewFavorites"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:clipToPadding="false"
+            android:paddingBottom="80dp"
+            tools:listitem="@layout/item_movie" />
+    </RelativeLayout>
 </layout>
