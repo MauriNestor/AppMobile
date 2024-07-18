@@ -81,7 +81,6 @@ class MovieViewModel(private val repository: MovieRepository, private val contex
             getFavoriteMovies()
         }
     }
-
     companion object {
         @Volatile private var INSTANCE: MovieViewModel? = null
 

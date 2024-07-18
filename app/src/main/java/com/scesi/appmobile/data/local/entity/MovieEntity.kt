@@ -2,7 +2,6 @@ package com.scesi.appmobile.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.io.Serializable
 
 @Entity(tableName = "movies")
 data class MovieEntity(
@@ -11,9 +10,14 @@ data class MovieEntity(
     val posterPath: String?,
     val voteAverage: Double,
     val overview: String,
-    val category: String,
-    var isFavorite: Boolean = false,
-    val lastUpdated: Long,
+    val isFavorite: Boolean,
+    val releaseDate: String,
     val popularity: Double,
-    val releaseDate: String
-) : Serializable
+    val category: String,
+    val status: String,
+    val language: String,
+    val budget: Int,
+    val revenue: Int,
+    val runtime: Int,
+    val lastUpdated: Long
+)

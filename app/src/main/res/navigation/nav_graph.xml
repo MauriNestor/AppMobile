@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -55,5 +56,21 @@
         <argument
             android:name="isFavorite"
             app:argType="boolean" />
+        <argument
+            android:name="status"
+            app:argType="string" />
+        <argument
+            android:name="language"
+            app:argType="string" />
+        <argument
+            android:name="budget"
+            app:argType="integer" />
+        <argument
+            android:name="revenue"
+            app:argType="integer" />
+        <argument
+            android:name="runtime"
+            app:argType="integer" />
     </fragment>
+
 </navigation>

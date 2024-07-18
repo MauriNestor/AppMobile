@@ -3,6 +3,7 @@ package com.scesi.appmobile.data.repository
 import android.util.Log
 import com.scesi.appmobile.data.local.dao.MovieDao
 import com.scesi.appmobile.data.local.entity.MovieEntity
+import com.scesi.appmobile.data.model.MovieDetailResponsive
 import com.scesi.appmobile.data.network.ApiService
 import com.scesi.appmobile.utils.toMovieEntity
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +18,7 @@ class MovieRepository(private val movieDao: MovieDao, private val apiService: Ap
                 val response = apiService.getMovies(category, page)
                 val currentTime = System.currentTimeMillis()
                 val newMovies = response.results.map {
-                    it.toMovieEntity(category).copy(lastUpdated = currentTime)
+                    it.toMovieEntity(category, currentTime)
                 }
                 if (page == 1) {
                     // Obtener el estado de favoritos antes de limpiar
@@ -53,5 +54,16 @@ class MovieRepository(private val movieDao: MovieDao, private val apiService: Ap
 
     suspend fun updateFavoriteStatus(movieId: Int, isFavorite: Boolean) {
         movieDao.updateFavoriteStatus(movieId, isFavorite)
+    }
+
+    suspend fun getMovieDetails(movieId: Int): MovieDetailResponsive {
+        return apiService.getMovieDetail(movieId)
+    }
+
+    suspend fun getMovieById(movieId: Int): MovieEntity? {
+        return withContext(Dispatchers.IO) {
+            val movieDetailResponse = apiService.getMovieDetail(movieId)
+            movieDetailResponse.toMovieEntity("category_placeholder", System.currentTimeMillis())
+        }
     }
 }

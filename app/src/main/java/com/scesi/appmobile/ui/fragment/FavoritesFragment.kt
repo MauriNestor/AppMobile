@@ -57,7 +57,12 @@ class FavoritesFragment : Fragment() {
             movie.releaseDate,
             movie.popularity.toFloat(),
             movie.category,
-            movie.isFavorite
+            movie.isFavorite,
+            movie.status,
+            movie.language,
+            movie.budget,
+            movie.revenue,
+            movie.runtime
         )
         findNavController().navigate(action)
     }
