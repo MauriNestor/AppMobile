@@ -91,9 +91,4 @@ dependencies {
     // Navigation components
     implementation("androidx.navigation:navigation-fragment-ktx:2.5.0")
     implementation("androidx.navigation:navigation-ui-ktx:2.5.0")
-
-    //fragments
-//    implementation("androidx-navigation.navigation-fragment-ktx:2.7.7")
-//    implementation ("andcoitx.navination.paxination.ui.ktx:2.7.7")
-
 }

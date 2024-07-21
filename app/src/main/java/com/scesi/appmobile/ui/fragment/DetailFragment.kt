@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.scesi.appmobile.MyApplication
 import com.scesi.appmobile.R
 import com.scesi.appmobile.databinding.FragmentDetailBinding
@@ -44,11 +45,22 @@ class DetailFragment : Fragment() {
         }
 
         detailViewModel.movieDetails.observe(viewLifecycleOwner, Observer { movie ->
+            clearViews()
+
             binding.movie = movie
 
             val posterUrl = "${Constants.IMG_BASE_URL}${movie.posterPath}"
-            Glide.with(this)
+
+            // Load the new image with a placeholder and clear cache for image views
+            Glide.with(view.context)
                 .load(posterUrl)
+                .apply(
+                    RequestOptions()
+                        .placeholder(R.drawable.notfoundimg)
+                        .error(R.drawable.error)
+                        .dontAnimate()
+                        .skipMemoryCache(true)
+                )
                 .into(binding.imageViewBackdrop)
 
             (activity as? AppCompatActivity)?.supportActionBar?.title = movie.title
@@ -68,6 +80,21 @@ class DetailFragment : Fragment() {
                 updateFavoriteIcon(newFavoriteStatus)
             }
         })
+    }
+
+    private fun clearViews() {
+        binding.textViewTitle.text = ""
+        binding.textViewOverview.text = ""
+        binding.textViewRating.text = ""
+        binding.textViewReleaseDate.text = ""
+        binding.textViewCategory.text = ""
+        binding.textViewPopularity.text = ""
+        binding.textViewStatus.text = ""
+        binding.textViewLanguage.text = ""
+        binding.textViewBudget.text = ""
+        binding.textViewRevenue.text = ""
+        binding.textViewRuntime.text = ""
+        binding.imageViewBackdrop.setImageDrawable(null)
     }
 
     private fun updateFavoriteIcon(isFavorite: Boolean) {

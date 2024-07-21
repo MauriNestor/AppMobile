@@ -10,17 +10,14 @@
         <item name="android:paddingTop">5dp</item>
     </style>
 
-    <!-- Custom text appearances -->
-    <style name="TextAppearance.AppCompat.Headline" parent="TextAppearance.AppCompat.Large">
-        <item name="android:textColor">@android:color/black</item>
+    <style name="Widget.MaterialComponents.AppBarLayout.PrimarySurface" parent="Widget.MaterialComponents.AppBarLayout.Primary">
+        <item name="android:background">?attr/colorPrimarySurface</item>
     </style>
-
-    <style name="TextAppearance.AppCompat.Subhead" parent="TextAppearance.AppCompat.Medium">
-        <item name="android:textColor">@android:color/black</item>
+    <style name="Widget.MaterialComponents.Toolbar.PrimarySurface" parent="Widget.MaterialComponents.Toolbar">
+        <item name="android:background">?attr/colorPrimarySurface</item>
     </style>
-
-    <style name="TextAppearance.AppCompat.Body1" parent="TextAppearance.AppCompat.Body1" tools:ignore="ResourceCycle">
-        <item name="android:textColor">@android:color/black</item>
-    </style>
+    <style name="TextAppearance.MdcTypographyStyles.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1"/>
+    <style name="TextAppearance.MdcTypographyStyles.Headline6" parent="TextAppearance.MaterialComponents.Headline6"/>
+    <style name="TextAppearance.MdcTypographyStyles.Body1" parent="TextAppearance.MaterialComponents.Body1"/>
 
 </resources>

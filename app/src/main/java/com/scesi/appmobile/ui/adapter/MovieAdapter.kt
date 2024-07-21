@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.scesi.appmobile.R
 import com.scesi.appmobile.databinding.ItemMovieBinding
 import com.scesi.appmobile.domain.model.Movie
 import com.scesi.appmobile.utils.Constants
@@ -30,8 +32,16 @@ class MovieAdapter(private val onItemClick: (Movie) -> Unit) : ListAdapter<Movie
             binding.executePendingBindings()
 
             val posterUrl = "${Constants.IMG_BASE_URL}${movie.posterPath}"
+
+            // Clear previous image and set a placeholder
+            Glide.with(binding.imageView.context)
+                .load(R.drawable.notfoundimg)
+                .into(binding.imageView)
+
+            // Load the new image
             Glide.with(binding.imageView.context)
                 .load(posterUrl)
+                .apply(RequestOptions().placeholder(R.drawable.notfoundimg).error(R.drawable.error))
                 .into(binding.imageView)
 
             binding.root.setOnClickListener {
