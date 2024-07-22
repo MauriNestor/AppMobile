@@ -21,11 +21,9 @@ class MovieRepository(private val movieDao: MovieDao, private val apiService: Ap
                     it.toMovieEntity(category, currentTime)
                 }
                 if (page == 1) {
-                    // Obtener el estado de favoritos antes de limpiar
                     val existingMovies = movieDao.getMoviesByCategory(category)
                     val favoriteMoviesMap = existingMovies.filter { it.isFavorite }.associateBy { it.id }
 
-                    // Actualizar el estado de favoritos en las nuevas películas
                     val updatedMovies = newMovies.map { movie ->
                         val isFavorite = favoriteMoviesMap[movie.id]?.isFavorite ?: false
                         movie.copy(isFavorite = isFavorite)
@@ -61,9 +59,10 @@ class MovieRepository(private val movieDao: MovieDao, private val apiService: Ap
     }
 
     suspend fun getMovieById(movieId: Int): MovieEntity? {
-        return withContext(Dispatchers.IO) {
-            val movieDetailResponse = apiService.getMovieDetail(movieId)
-            movieDetailResponse.toMovieEntity("category_placeholder", System.currentTimeMillis())
-        }
+        return movieDao.getMovieById(movieId)
+    }
+
+    suspend fun insertMovie(movie: MovieEntity) {
+        movieDao.insertMovies(listOf(movie))
     }
 }

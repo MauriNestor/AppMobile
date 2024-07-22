@@ -33,12 +33,10 @@ class MovieAdapter(private val onItemClick: (Movie) -> Unit) : ListAdapter<Movie
 
             val posterUrl = "${Constants.IMG_BASE_URL}${movie.posterPath}"
 
-            // Clear previous image and set a placeholder
             Glide.with(binding.imageView.context)
                 .load(R.drawable.notfoundimg)
                 .into(binding.imageView)
 
-            // Load the new image
             Glide.with(binding.imageView.context)
                 .load(posterUrl)
                 .apply(RequestOptions().placeholder(R.drawable.notfoundimg).error(R.drawable.error))

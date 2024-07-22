@@ -15,6 +15,9 @@ import com.scesi.appmobile.R
 import com.scesi.appmobile.databinding.FragmentDetailBinding
 import com.scesi.appmobile.ui.viewmodel.DetailViewModel
 import com.scesi.appmobile.utils.Constants
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class DetailFragment : Fragment() {
 
@@ -45,21 +48,16 @@ class DetailFragment : Fragment() {
         }
 
         detailViewModel.movieDetails.observe(viewLifecycleOwner, Observer { movie ->
-            clearViews()
-
             binding.movie = movie
 
             val posterUrl = "${Constants.IMG_BASE_URL}${movie.posterPath}"
 
-            // Load the new image with a placeholder and clear cache for image views
             Glide.with(view.context)
                 .load(posterUrl)
                 .apply(
                     RequestOptions()
-                        .placeholder(R.drawable.notfoundimg)
-                        .error(R.drawable.error)
-                        .dontAnimate()
-                        .skipMemoryCache(true)
+                        .placeholder(R.drawable.notfoundimg)  // Usa tu imagen de marcador de posición
+                        .error(R.drawable.error)  // Usa tu imagen de error
                 )
                 .into(binding.imageViewBackdrop)
 
@@ -72,29 +70,20 @@ class DetailFragment : Fragment() {
                 detailViewModel.updateFavoriteStatus(movie.id, newFavoriteStatus)
 
                 val message = if (newFavoriteStatus) {
-                    "Se agregó la película en la sección de favoritos."
+                    "the movie was added to the favorites section"
                 } else {
-                    "Se eliminó la película de la sección de favoritos."
+                    "the movie was removed from the favorites section"
                 }
                 Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
                 updateFavoriteIcon(newFavoriteStatus)
             }
         })
-    }
 
-    private fun clearViews() {
-        binding.textViewTitle.text = ""
-        binding.textViewOverview.text = ""
-        binding.textViewRating.text = ""
-        binding.textViewReleaseDate.text = ""
-        binding.textViewCategory.text = ""
-        binding.textViewPopularity.text = ""
-        binding.textViewStatus.text = ""
-        binding.textViewLanguage.text = ""
-        binding.textViewBudget.text = ""
-        binding.textViewRevenue.text = ""
-        binding.textViewRuntime.text = ""
-        binding.imageViewBackdrop.setImageDrawable(null)
+        detailViewModel.error.observe(viewLifecycleOwner, Observer { errorMessage ->
+            errorMessage?.let {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+            }
+        })
     }
 
     private fun updateFavoriteIcon(isFavorite: Boolean) {
