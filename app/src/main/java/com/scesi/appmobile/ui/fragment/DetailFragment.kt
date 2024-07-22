@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.scesi.appmobile.MyApplication
@@ -15,9 +14,6 @@ import com.scesi.appmobile.R
 import com.scesi.appmobile.databinding.FragmentDetailBinding
 import com.scesi.appmobile.ui.viewmodel.DetailViewModel
 import com.scesi.appmobile.utils.Constants
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class DetailFragment : Fragment() {
 
@@ -47,7 +43,7 @@ class DetailFragment : Fragment() {
             detailViewModel.fetchMovieDetails(movieId)
         }
 
-        detailViewModel.movieDetails.observe(viewLifecycleOwner, Observer { movie ->
+        detailViewModel.movieDetails.observe(viewLifecycleOwner) { movie ->
             binding.movie = movie
 
             val posterUrl = "${Constants.IMG_BASE_URL}${movie.posterPath}"
@@ -56,8 +52,8 @@ class DetailFragment : Fragment() {
                 .load(posterUrl)
                 .apply(
                     RequestOptions()
-                        .placeholder(R.drawable.notfoundimg)  // Usa tu imagen de marcador de posición
-                        .error(R.drawable.error)  // Usa tu imagen de error
+                        .placeholder(R.drawable.notfoundimg)
+                        .error(R.drawable.error)
                 )
                 .into(binding.imageViewBackdrop)
 
@@ -77,13 +73,13 @@ class DetailFragment : Fragment() {
                 Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
                 updateFavoriteIcon(newFavoriteStatus)
             }
-        })
+        }
 
-        detailViewModel.error.observe(viewLifecycleOwner, Observer { errorMessage ->
+        detailViewModel.error.observe(viewLifecycleOwner) { errorMessage ->
             errorMessage?.let {
                 Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
             }
-        })
+        }
     }
 
     private fun updateFavoriteIcon(isFavorite: Boolean) {

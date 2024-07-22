@@ -75,12 +75,6 @@ class MovieViewModel(private val repository: MovieRepository, private val contex
         }
     }
 
-    fun updateFavoriteStatus(movieId: Int, isFavorite: Boolean) {
-        viewModelScope.launch {
-            repository.updateFavoriteStatus(movieId, isFavorite)
-            getFavoriteMovies()
-        }
-    }
     companion object {
         @Volatile private var INSTANCE: MovieViewModel? = null
 

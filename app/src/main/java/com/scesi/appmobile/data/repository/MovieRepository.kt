@@ -2,6 +2,7 @@ package com.scesi.appmobile.data.repository
 
 import android.util.Log
 import com.scesi.appmobile.data.local.dao.MovieDao
+import com.scesi.appmobile.data.local.entity.FavoriteEntity
 import com.scesi.appmobile.data.local.entity.MovieEntity
 import com.scesi.appmobile.data.model.MovieDetailResponsive
 import com.scesi.appmobile.data.network.ApiService
@@ -21,19 +22,9 @@ class MovieRepository(private val movieDao: MovieDao, private val apiService: Ap
                     it.toMovieEntity(category, currentTime)
                 }
                 if (page == 1) {
-                    val existingMovies = movieDao.getMoviesByCategory(category)
-                    val favoriteMoviesMap = existingMovies.filter { it.isFavorite }.associateBy { it.id }
-
-                    val updatedMovies = newMovies.map { movie ->
-                        val isFavorite = favoriteMoviesMap[movie.id]?.isFavorite ?: false
-                        movie.copy(isFavorite = isFavorite)
-                    }
-
                     movieDao.clearMoviesByCategory(category)
-                    movieDao.insertMovies(updatedMovies)
-                } else {
-                    movieDao.insertMovies(newMovies)
                 }
+                movieDao.insertMovies(newMovies)
                 return@withContext newMovies
             } catch (e: IOException) {
                 Log.e("MovieRepository", "Error fetching movies: ${e.message}")
@@ -47,11 +38,17 @@ class MovieRepository(private val movieDao: MovieDao, private val apiService: Ap
     }
 
     suspend fun getFavoriteMovies(): List<MovieEntity> {
-        return movieDao.getFavoriteMovies()
+        val favoriteEntities = movieDao.getAllFavorites()
+        val favoriteMovieIds = favoriteEntities.map { it.movieId }
+        return favoriteMovieIds.mapNotNull { movieDao.getMovieById(it) }
     }
 
     suspend fun updateFavoriteStatus(movieId: Int, isFavorite: Boolean) {
-        movieDao.updateFavoriteStatus(movieId, isFavorite)
+        if (isFavorite) {
+            movieDao.insertFavorite(FavoriteEntity(movieId))
+        } else {
+            movieDao.deleteFavorite(movieId)
+        }
     }
 
     suspend fun getMovieDetails(movieId: Int): MovieDetailResponsive {
@@ -64,5 +61,9 @@ class MovieRepository(private val movieDao: MovieDao, private val apiService: Ap
 
     suspend fun insertMovie(movie: MovieEntity) {
         movieDao.insertMovies(listOf(movie))
+    }
+
+    suspend fun isFavorite(movieId: Int): Boolean {
+        return movieDao.isFavorite(movieId)
     }
 }
