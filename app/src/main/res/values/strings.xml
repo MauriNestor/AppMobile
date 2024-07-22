@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">The Movie Box</string>
     <string name="movie_poster">Movie Poster</string>
-    <!-- Strings used for fragments for navigation -->
+    <!-- fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Ir a la App</string>
@@ -13,10 +13,19 @@
     <string name="screenText">Welcome to The Movie Box</string>
 
 <!--    detail-->
+    <string name="movie_poster_description">Poster of the movie</string>
     <string name="movie_overview_label">Overview</string>
     <string name="movie_status_label">Status</string>
     <string name="movie_lang_label">Language</string>
     <string name="movie_budget_label">Budget</string>
     <string name="movie_revenue_label">Revenue</string>
     <string name="add_to_favorites">Add to Favorites</string>
+
+<!--    nav_header-->
+    <string name="ic_launcher_description">Launcher icon</string>
+    <string name="Mauricio_apaza">Mauricio Apaza Callapa</string>
+    <string name="mauric845apaza_email">mauric845apaza@gmail.com</string>
+<!-- nav menus-->
+    <string name="home">Home</string>
+    <string name="favorites">Favorites</string>
 </resources>

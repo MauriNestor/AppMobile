@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Delete
 import com.scesi.appmobile.data.local.entity.MovieEntity
 import com.scesi.appmobile.data.local.entity.FavoriteEntity
 
@@ -29,7 +28,7 @@ interface MovieDao {
     @Query("DELETE FROM favorites WHERE movieId = :movieId")
     suspend fun deleteFavorite(movieId: Int)
 
-    @Query("SELECT * FROM favorites")
+    @Query("SELECT * FROM favorites ORDER BY timestamp DESC")
     suspend fun getAllFavorites(): List<FavoriteEntity>
 
     @Query("SELECT EXISTS(SELECT 1 FROM favorites WHERE movieId = :movieId)")

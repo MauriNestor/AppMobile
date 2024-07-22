@@ -8,20 +8,22 @@
     android:background="@color/rojo_200">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher_foreground" />
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/fotoperfil"
+        android:paddingBottom="10dp"
+        android:contentDescription="@string/ic_launcher_description" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Mauricio Apaza"
+        android:text="@string/Mauricio_apaza"
         android:textColor="@android:color/white"
         android:textSize="18sp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="mauric845apaza@gmail.com"
+        android:text="@string/mauric845apaza_email"
         android:textColor="@android:color/white" />
 </LinearLayout>
