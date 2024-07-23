@@ -7,11 +7,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.scesi.appmobile.MyApplication
 import com.scesi.appmobile.R
 import com.scesi.appmobile.databinding.FragmentDetailBinding
+import com.scesi.appmobile.ui.adapter.VideoAdapter
 import com.scesi.appmobile.ui.viewmodel.DetailViewModel
 import com.scesi.appmobile.utils.Constants
 
@@ -20,6 +22,7 @@ class DetailFragment : Fragment() {
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
     private lateinit var detailViewModel: DetailViewModel
+    private val videoAdapter = VideoAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,7 +46,7 @@ class DetailFragment : Fragment() {
             detailViewModel.fetchMovieDetails(movieId)
         }
 
-        detailViewModel.movieDetails.observe(viewLifecycleOwner) { movie ->
+        detailViewModel.movieDetails.observe(viewLifecycleOwner, Observer { movie ->
             binding.movie = movie
 
             val posterUrl = "${Constants.IMG_BASE_URL}${movie.posterPath}"
@@ -59,26 +62,44 @@ class DetailFragment : Fragment() {
 
             (activity as? AppCompatActivity)?.supportActionBar?.title = movie.title
 
-            updateFavoriteIcon(movie.isFavorite)
-            binding.fabFavorite.setOnClickListener {
-                val newFavoriteStatus = !movie.isFavorite
-                movie.isFavorite = newFavoriteStatus
-                detailViewModel.updateFavoriteStatus(movie.id, newFavoriteStatus)
-
-                val message = if (newFavoriteStatus) {
-                    "the movie was added to the favorites section"
-                } else {
-                    "the movie was removed from the favorites section"
+            detailViewModel.isFavorite.observe(viewLifecycleOwner, Observer { isFavorite ->
+                updateFavoriteIcon(isFavorite)
+                binding.fabFavorite.setOnClickListener {
+                    val newFavoriteStatus = !isFavorite
+                    detailViewModel.updateFavoriteStatus(movie.id, newFavoriteStatus)
+                    val message = if (newFavoriteStatus) {
+                        "the movie was added to the favorites section"
+                    } else {
+                        "the movie was removed from the favorites section"
+                    }
+                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
                 }
-                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-                updateFavoriteIcon(newFavoriteStatus)
-            }
-        }
+            })
+        })
 
-        detailViewModel.error.observe(viewLifecycleOwner) { errorMessage ->
+        detailViewModel.movieVideos.observe(viewLifecycleOwner, Observer { videos ->
+            videoAdapter.submitList(videos)
+        })
+
+        detailViewModel.error.observe(viewLifecycleOwner, Observer { errorMessage ->
             errorMessage?.let {
                 Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
             }
+        })
+        setupViewPager()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val movieId = arguments?.getInt("movieId")
+        movieId?.let {
+            detailViewModel.fetchMovieDetails(it)
+        }
+    }
+
+    private fun setupViewPager() {
+        binding.viewPagerTrailers.apply {
+            adapter = videoAdapter
         }
     }
 

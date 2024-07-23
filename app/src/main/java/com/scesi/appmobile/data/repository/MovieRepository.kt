@@ -5,8 +5,11 @@ import com.scesi.appmobile.data.local.dao.MovieDao
 import com.scesi.appmobile.data.local.entity.FavoriteEntity
 import com.scesi.appmobile.data.local.entity.MovieEntity
 import com.scesi.appmobile.data.model.MovieDetailResponsive
+import com.scesi.appmobile.data.model.MovieVideoResponse
 import com.scesi.appmobile.data.network.ApiService
+import com.scesi.appmobile.domain.model.MovieVideo
 import com.scesi.appmobile.utils.toMovieEntity
+import com.scesi.appmobile.utils.toDomainModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.IOException
@@ -65,5 +68,8 @@ class MovieRepository(private val movieDao: MovieDao, private val apiService: Ap
 
     suspend fun isFavorite(movieId: Int): Boolean {
         return movieDao.isFavorite(movieId)
+    }
+    suspend fun getMovieVideos(movieId: Int): MovieVideoResponse {
+        return apiService.getMovieVideos(movieId)
     }
 }
