@@ -180,30 +180,6 @@
                     app:layout_constraintTop_toBottomOf="@id/textViewPopularityLabel" />
 
                 <TextView
-                    android:id="@+id/textViewCategoryLabel"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Category"
-                    android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Body1"
-                    android:textColor="@color/rojo_200"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/textViewPopularity" />
-
-                <TextView
-                    android:id="@+id/textViewCategory"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text='@{movie.category}'
-                    android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Body1"
-                    android:textColor="@color/black"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/textViewCategoryLabel" />
-
-                <TextView
                     android:id="@+id/textViewStatusLabel"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -213,7 +189,7 @@
                     android:textColor="@color/rojo_200"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/textViewCategory" />
+                    app:layout_constraintTop_toBottomOf="@id/textViewPopularity" />
 
                 <TextView
                     android:id="@+id/textViewStatus"

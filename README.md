@@ -30,15 +30,15 @@ Navdrawer|Trailer|Logo
 ## Tecnologías Utilizadas
 
 - Kotlin
-- Android SDK 17
+- Android SDK 24
 - Retrofit
 - JetPack
   - Lifecycle - desechar los datos de observación cuando cambie el estado del ciclo de vida.
   - ViewModel - relacionado con la IU
   - Room Persistence - craecion de la base de datos.
-- Architectura
-  - MVVM (View - DataBinding - ViewModel - Model)
-  - Material Desenio
+- Arquitectura
+  - MVVM (Model-View-ViewModel)
+  - Material de diseño
     - OkHttp3 - interceptores para login al consumir endpoint
     - Glide - cargado de imagenes
     - RecyclerViewAdapter - implementado en adapters, IU, viewHolders
